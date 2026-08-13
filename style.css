@@ -279,3 +279,161 @@ footer {
   }
 
 }
+/* ================================
+   GOLD GEOMETRIC DETAILS
+================================ */
+
+.title-frame {
+  margin-top: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.title-frame h1 {
+  margin: 0;
+}
+
+.title-line {
+  width: 38px;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(224, 201, 141, 0.72)
+  );
+}
+
+.title-line.right {
+  background: linear-gradient(
+    90deg,
+    rgba(224, 201, 141, 0.72),
+    transparent
+  );
+}
+
+.title-diamond {
+  color: var(--gold);
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+
+/* corner embroidery */
+
+.corner {
+  position: absolute;
+
+  width: 58px;
+  height: 58px;
+
+  opacity: 0.28;
+
+  pointer-events: none;
+}
+
+.corner::before,
+.corner::after {
+  content: "";
+  position: absolute;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(200,169,106,0.75)
+  );
+}
+
+.corner::before {
+  width: 48px;
+  height: 1px;
+}
+
+.corner::after {
+  width: 1px;
+  height: 48px;
+}
+
+.corner-tl {
+  top: 18px;
+  left: 15px;
+}
+
+.corner-tl::before {
+  top: 0;
+  left: 0;
+}
+
+.corner-tl::after {
+  top: 0;
+  left: 0;
+}
+
+
+.corner-tr {
+  top: 18px;
+  right: 15px;
+  transform: scaleX(-1);
+}
+
+.corner-tr::before {
+  top: 0;
+  left: 0;
+}
+
+.corner-tr::after {
+  top: 0;
+  left: 0;
+}
+
+
+.corner-bl {
+  bottom: 18px;
+  left: 15px;
+  transform: scaleY(-1);
+}
+
+.corner-bl::before {
+  top: 0;
+  left: 0;
+}
+
+.corner-bl::after {
+  top: 0;
+  left: 0;
+}
+
+
+.corner-br {
+  bottom: 18px;
+  right: 15px;
+  transform: scale(-1);
+}
+
+.corner-br::before {
+  top: 0;
+  left: 0;
+}
+
+.corner-br::after {
+  top: 0;
+  left: 0;
+}
+
+
+/* tiny inner ornament */
+
+.cover::after {
+  content: "✦";
+  display: block;
+
+  margin: 16px auto 0;
+
+  color: rgba(200,169,106,0.5);
+
+  font-size: 8px;
+  letter-spacing: 4px;
+}
