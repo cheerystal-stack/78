@@ -50,17 +50,17 @@
 
     <section class="main-menu">
 
-      <button class="main-button">
-        <span class="button-symbol">✦</span>
-        <span>NEW READING</span>
-      </button>
+  <button class="main-button">
+    <span class="button-symbol">✦</span>
+    <span>NEW READING</span>
+  </button>
 
-      <button class="main-button">
-        <span class="button-symbol">☾</span>
-        <span>ONE CARD</span>
-      </button>
+  <button class="main-button" id="oneCardBtn">
+    <span class="button-symbol">☾</span>
+    <span>ONE CARD</span>
+  </button>
 
-    </section>
+</section>
 
 
     <nav class="sub-menu">
@@ -80,7 +80,39 @@
       <span>LVI</span>
     </footer>
 
-  </main>
+    <section class="one-card-screen" id="oneCardScreen">
 
+  <button class="back-button" id="backHome">
+    ← HOME
+  </button>
+
+  <div class="screen-heading">
+    <div class="small-symbol">☾　✦　☽</div>
+    <h2>ONE CARD</h2>
+    <p>one question. one card.</p>
+  </div>
+
+  <div class="draw-options">
+
+    <button class="draw-option">
+      <span class="option-symbol">✦</span>
+      <strong>PHYSICAL</strong>
+      <small>draw from your deck</small>
+    </button>
+
+    <button class="draw-option" id="randomBtn">
+      <span class="option-symbol">☾</span>
+      <strong>RANDOM</strong>
+      <small>let 78 choose</small>
+    </button>
+
+  </div>
+
+</section>
+    
+  </main>
+  
+<script src="app.js"></script>
+  
 </body>
 </html>
