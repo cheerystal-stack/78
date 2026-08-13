@@ -6,6 +6,12 @@ const backHome = document.getElementById("backHome");
 
 const randomBtn = document.getElementById("randomBtn");
 
+const questionScreen = document.getElementById("questionScreen");
+const backQuestion = document.getElementById("backQuestion");
+const drawFromQuestion = document.getElementById("drawFromQuestion");
+const questionInput = document.getElementById("questionInput");
+const moodChips = document.querySelectorAll(".mood-chip");
+
 const resultScreen = document.getElementById("resultScreen");
 const backOneCard = document.getElementById("backOneCard");
 const drawAgain = document.getElementById("drawAgain");
@@ -162,11 +168,28 @@ function drawRandomCard() {
 
 }
 
+randomBtn.addEventListener("click", () => {
+  oneCardScreen.classList.remove("active");
+  questionScreen.classList.add("active");
+  window.scrollTo(0, 0);
+});
 
-randomBtn.addEventListener(
-  "click",
-  drawRandomCard
-);
+backQuestion.addEventListener("click", () => {
+  questionScreen.classList.remove("active");
+  oneCardScreen.classList.add("active");
+  window.scrollTo(0, 0);
+});
+
+moodChips.forEach(chip => {
+  chip.addEventListener("click", () => {
+    chip.classList.toggle("selected");
+  });
+});
+
+drawFromQuestion.addEventListener("click", () => {
+  questionScreen.classList.remove("active");
+  drawRandomCard();
+});
 
 
 drawAgain.addEventListener(
