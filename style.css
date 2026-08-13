@@ -596,3 +596,138 @@ footer {
 .one-card-screen.active {
   display: block;
 }
+/* ================================
+   RANDOM RESULT
+================================ */
+
+.result-screen {
+  display: none;
+
+  width: min(100%, 430px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 45px 26px;
+
+  color: var(--ivory);
+
+  background:
+    radial-gradient(
+      circle at 50% 38%,
+      rgba(57, 70, 135, 0.48),
+      transparent 45%
+    ),
+    linear-gradient(
+      145deg,
+      #050817,
+      #0d1436 48%,
+      #070b20
+    );
+}
+
+.result-screen.active {
+  display: block;
+}
+
+.result-heading {
+  margin-top: 55px;
+  text-align: center;
+}
+
+.result-heading p {
+  margin-top: 18px;
+
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+.tarot-card {
+  width: 250px;
+  min-height: 390px;
+
+  margin: 38px auto 35px;
+  padding: 28px 20px;
+
+  border: 1px solid rgba(200,169,106,0.75);
+  border-radius: 7px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(200,169,106,0.08),
+      transparent 58%
+    ),
+    rgba(4,7,24,0.45);
+
+  box-shadow:
+    0 0 30px rgba(0,0,0,0.25),
+    inset 0 0 25px rgba(200,169,106,0.035);
+}
+
+.card-roman {
+  min-height: 20px;
+
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 4px;
+}
+
+.card-symbol {
+  margin-top: 70px;
+
+  color: var(--gold);
+  font-size: 20px;
+}
+
+.card-name {
+  margin-top: 25px;
+
+  color: var(--gold-light);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  letter-spacing: 2px;
+}
+
+.card-position {
+  margin-top: 14px;
+
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.card-symbol.bottom {
+  margin-top: auto;
+  font-size: 10px;
+  letter-spacing: 6px;
+}
+
+.draw-again {
+  display: block;
+
+  width: 250px;
+  margin: 0 auto;
+  padding: 15px;
+
+  border: 1px solid rgba(200,169,106,0.5);
+  border-radius: 4px;
+
+  color: var(--gold-light);
+  background: transparent;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+
+  cursor: pointer;
+}
+
+.draw-again:active {
+  transform: scale(0.98);
+}
