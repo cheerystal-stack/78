@@ -449,9 +449,6 @@ footer {
   margin: 0 auto;
   padding: 45px 26px;
 
-  position: fixed;
-  inset: 0;
-
   z-index: 20;
 
   color: var(--ivory);
@@ -567,4 +564,35 @@ footer {
 .option-symbol {
   color: var(--gold);
   font-size: 12px;
+}
+.home-hidden {
+  display: none;
+}
+
+.one-card-screen {
+  display: none;
+
+  width: min(100%, 430px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 45px 26px;
+
+  color: var(--ivory);
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(57, 70, 135, 0.42),
+      transparent 48%
+    ),
+    linear-gradient(
+      145deg,
+      #050817,
+      #0d1436 48%,
+      #070b20
+    );
+}
+
+.one-card-screen.active {
+  display: block;
 }
