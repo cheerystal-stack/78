@@ -19,6 +19,13 @@ const drawAgain = document.getElementById("drawAgain");
 const cardRoman = document.getElementById("cardRoman");
 const cardName = document.getElementById("cardName");
 const cardPosition = document.getElementById("cardPosition");
+const readCardBtn = document.getElementById("readCardBtn");
+const cardMeaning = document.getElementById("cardMeaning");
+
+const meaningKeywords = document.getElementById("meaningKeywords");
+const meaningMessage = document.getElementById("meaningMessage");
+const meaningLove = document.getElementById("meaningLove");
+const meaningWork = document.getElementById("meaningWork");
 
 
 /* ================================
@@ -204,5 +211,22 @@ backOneCard.addEventListener("click", () => {
   oneCardScreen.classList.add("active");
 
   window.scrollTo(0, 0);
+
+});
+readCardBtn.addEventListener("click", () => {
+
+  meaningKeywords.textContent =
+    "迷い・決断・停滞・バランス";
+
+  meaningMessage.textContent =
+    "今は答えを急がず、状況を整理するときです。";
+
+  meaningLove.textContent =
+    "恋愛では、気持ちがあっても決断を避けていたり、関係が停滞している状態を表すことがあります。";
+
+  meaningWork.textContent =
+    "仕事では、判断材料が足りず、決断を保留している状態を表します。";
+
+  cardMeaning.classList.toggle("active");
 
 });
