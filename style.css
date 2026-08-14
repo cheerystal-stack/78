@@ -965,3 +965,36 @@ footer {
   line-height: 1.8;
   letter-spacing: 0.4px;
 }
+/* ================================
+   COPY FOR AI
+================================ */
+
+.copy-ai-button {
+  display: block;
+
+  width: 250px;
+  margin: 0 auto 16px;
+  padding: 15px;
+
+  border: 1px solid rgba(200,169,106,0.5);
+  border-radius: 4px;
+
+  color: var(--gold-light);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.035),
+      rgba(255,255,255,0.005)
+    );
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+
+  cursor: pointer;
+}
+
+.copy-ai-button:active {
+  transform: scale(0.98);
+  background: rgba(200,169,106,0.08);
+}
