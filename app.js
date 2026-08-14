@@ -255,17 +255,34 @@ backOneCard.addEventListener("click", () => {
 });
 readCardBtn.addEventListener("click", () => {
 
-  meaningKeywords.textContent =
-    "迷い・決断・停滞・バランス";
+  const card = cardMeanings[cardName.textContent];
 
-  meaningMessage.textContent =
-    "今は答えを急がず、状況を整理するときです。";
+  const isReversed =
+    cardPosition.textContent.includes("REVERSED");
 
-  meaningLove.textContent =
-    "恋愛では、気持ちがあっても決断を避けていたり、関係が停滞している状態を表すことがあります。";
+  if (card) {
 
-  meaningWork.textContent =
-    "仕事では、判断材料が足りず、決断を保留している状態を表します。";
+    const meaning =
+      isReversed ? card.reversed : card.upright;
+
+    meaningKeywords.textContent =
+      meaning.keywords;
+
+    meaningMessage.textContent =
+      meaning.message;
+
+  } else {
+
+    meaningKeywords.textContent =
+      "COMING SOON";
+
+    meaningMessage.textContent =
+      "This card is waiting to be added to the 78 library.";
+
+  }
+
+  meaningLove.textContent = "";
+  meaningWork.textContent = "";
 
   cardMeaning.classList.toggle("active");
 
