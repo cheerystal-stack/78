@@ -280,8 +280,6 @@ readCardBtn.addEventListener("click", () => {
 
   }
 
-  meaningLove.textContent = "";
-  meaningWork.textContent = "";
 
   cardMeaning.classList.toggle("active");
 
