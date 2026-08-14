@@ -21,6 +21,7 @@ const cardName = document.getElementById("cardName");
 const cardPosition = document.getElementById("cardPosition");
 const readCardBtn = document.getElementById("readCardBtn");
 const cardMeaning = document.getElementById("cardMeaning");
+const copyAiBtn = document.getElementById("copyAiBtn");
 
 const meaningKeywords = document.getElementById("meaningKeywords");
 const meaningMessage = document.getElementById("meaningMessage");
@@ -1105,5 +1106,94 @@ readCardBtn.addEventListener("click", () => {
 
 
   cardMeaning.classList.toggle("active");
+
+});
+copyAiBtn.addEventListener("click", async () => {
+
+  const question =
+    questionInput.value.trim() || "質問は入力されていません";
+
+  const selectedMoods =
+    Array.from(moodChips)
+      .filter(chip => chip.classList.contains("selected"))
+      .map(chip => chip.dataset.mood);
+
+  const moodText =
+    selectedMoods.length > 0
+      ? selectedMoods.join("・")
+      : "気分は選択されていません";
+
+
+  const card = cardMeanings[cardName.textContent];
+
+  const isReversed =
+    cardPosition.textContent.includes("REVERSED");
+
+  const meaning =
+    card
+      ? (isReversed ? card.reversed : card.upright)
+      : null;
+
+
+  const keywords =
+    meaning ? meaning.keywords : "";
+
+  const message =
+    meaning ? meaning.message : "";
+
+
+  const text = `タロットWebアプリ「78」でカードを引きました。
+
+【質問】
+${question}
+
+【今の気分】
+${moodText}
+
+【出たカード】
+${cardName.textContent}
+${cardPosition.textContent}
+
+【基本キーワード】
+${keywords}
+
+【カードの基本メッセージ】
+${message}
+
+この結果を、タロットカードの一般的な象徴と、
+私の質問・今の気分を踏まえて詳しく解釈してください。
+
+カード単体の意味だけでなく、
+この質問に対してどのように読めるのかを説明してください。
+
+未来や他者の気持ちを事実として断定するのではなく、
+カードから考えられる可能性やニュアンスとして読んでください。
+
+質問と同じ言語で回答してください。`;
+
+
+  try {
+
+    await navigator.clipboard.writeText(text);
+
+    const originalText = copyAiBtn.textContent;
+
+    copyAiBtn.textContent = "✓ COPIED";
+
+    setTimeout(() => {
+      copyAiBtn.textContent = originalText;
+    }, 1800);
+
+  } catch (error) {
+
+    console.error("Copy failed:", error);
+
+    copyAiBtn.textContent = "COPY FAILED";
+
+    setTimeout(() => {
+      copyAiBtn.textContent = "✦ COPY FOR AI";
+    }, 1800);
+
+  }
 
 });
