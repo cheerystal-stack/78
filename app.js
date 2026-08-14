@@ -188,10 +188,8 @@ function drawRandomCard() {
   const randomIndex =
     Math.floor(Math.random() * tarotDeck.length);
 
-  const selectedCard = {
-  roman: "",
-  name: "TWO OF SWORDS"
-};
+  const selectedCard =
+  tarotDeck[randomIndex];
 
   const reversed =
     Math.random() < 0.5;
