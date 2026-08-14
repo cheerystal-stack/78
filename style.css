@@ -893,3 +893,75 @@ footer {
   transform: scale(0.985);
   background: rgba(200,169,106,0.08);
 }
+/* ================================
+   READ THE CARD
+================================ */
+
+.card-reading {
+  width: 250px;
+  margin: 0 auto 16px;
+}
+
+.read-card-button {
+  width: 100%;
+  padding: 15px;
+
+  border: 1px solid rgba(200,169,106,0.5);
+  border-radius: 4px;
+
+  color: var(--gold-light);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.035),
+      rgba(255,255,255,0.005)
+    );
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+
+  cursor: pointer;
+}
+
+.read-card-button:active {
+  transform: scale(0.98);
+  background: rgba(200,169,106,0.08);
+}
+
+.card-meaning {
+  display: none;
+
+  margin-top: 18px;
+  padding: 22px 18px;
+
+  border-top: 1px solid rgba(200,169,106,0.28);
+  border-bottom: 1px solid rgba(200,169,106,0.28);
+
+  background: rgba(4,7,24,0.22);
+}
+
+.card-meaning.active {
+  display: block;
+}
+
+.meaning-block + .meaning-block {
+  margin-top: 22px;
+}
+
+.meaning-label {
+  margin: 0 0 8px;
+
+  color: var(--gold);
+  font-size: 9px;
+  letter-spacing: 2.2px;
+}
+
+.meaning-text {
+  margin: 0;
+
+  color: var(--ivory);
+  font-size: 12px;
+  line-height: 1.8;
+  letter-spacing: 0.4px;
+}
