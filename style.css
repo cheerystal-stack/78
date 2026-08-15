@@ -1026,3 +1026,31 @@ footer {
 .reading-option small {
   display: block;
 }
+.spread-screen {
+  display: none;
+  min-height: 100vh;
+  padding: 32px 20px;
+}
+
+.spread-screen.active {
+  display: block;
+}
+
+.spread-options {
+  display: grid;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.spread-option {
+  width: 100%;
+  padding: 22px 18px;
+  border: 1px solid rgba(200, 169, 106, 0.5);
+  background: transparent;
+  color: inherit;
+}
+
+.spread-option strong,
+.spread-option small {
+  display: block;
+}
