@@ -55,9 +55,39 @@ const spreadMoodChips =
 const drawSpreadBtn =
   document.getElementById("drawSpreadBtn");
 
+const spreadResultScreen =
+  document.getElementById("spreadResultScreen");
+
+const backSpreadResult =
+  document.getElementById("backSpreadResult");
+
+const spreadCards = [
+  document.getElementById("spreadCard1"),
+  document.getElementById("spreadCard2"),
+  document.getElementById("spreadCard3")
+];
+
+const spreadCardNames = [
+  document.getElementById("spreadCardName1"),
+  document.getElementById("spreadCardName2"),
+  document.getElementById("spreadCardName3")
+];
+
+const spreadCardPositions = [
+  document.getElementById("spreadCardPosition1"),
+  document.getElementById("spreadCardPosition2"),
+  document.getElementById("spreadCardPosition3")
+];
+
+const copySpreadAiBtn =
+  document.getElementById("copySpreadAiBtn");
+
+const drawSpreadAgain =
+  document.getElementById("drawSpreadAgain");
+
 let selectedSpreadMood = "";
 let selectedSpread = "";
-
+let currentSpreadCards = [];
 
 /* ================================
    TAROT DECK — 78 CARDS
@@ -1039,6 +1069,45 @@ backHome.addEventListener("click", () => {
    RANDOM DRAW
 ================================ */
 
+function drawThreeCards() {
+
+  const shuffledDeck = [...tarotDeck];
+
+  for (let i = shuffledDeck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [shuffledDeck[i], shuffledDeck[j]] =
+      [shuffledDeck[j], shuffledDeck[i]];
+  }
+
+  currentSpreadCards = shuffledDeck
+    .slice(0, 3)
+    .map((card) => ({
+      card: card,
+      reversed: Math.random() < 0.5
+    }));
+
+  spreadCards.forEach((element, index) => {
+
+    const result = currentSpreadCards[index];
+
+    /* いったん全部伏せる */
+    element.classList.remove("revealed");
+
+    spreadCardNames[index].textContent =
+      result.card.name;
+
+    spreadCardPositions[index].textContent =
+      result.reversed
+        ? "REVERSED ↓"
+        : "UPRIGHT ↑";
+  });
+
+  spreadQuestionScreen.classList.remove("active");
+  spreadResultScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+}
 function drawRandomCard() {
 
   const randomIndex =
@@ -1091,6 +1160,26 @@ moodChips.forEach(chip => {
 drawFromQuestion.addEventListener("click", () => {
   questionScreen.classList.remove("active");
   drawRandomCard();
+});
+
+drawSpreadBtn.addEventListener("click", () => {
+  drawThreeCards();
+});
+
+spreadCards.forEach((card) => {
+
+  card.addEventListener("click", () => {
+    card.classList.add("revealed");
+  });
+
+});
+
+backSpreadResult.addEventListener("click", () => {
+
+  spreadResultScreen.classList.remove("active");
+  spreadQuestionScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
 });
 
 
