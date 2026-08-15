@@ -1290,7 +1290,7 @@ copySpreadAiBtn.addEventListener("click", async () => {
       result.reversed ? "reversed" : "upright";
 
     const meaning =
-      tarotMeanings[cardName]?.[direction];
+      cardMeanings[cardName]?.[direction];
 
     const keywords =
       meaning?.keywords || "";
