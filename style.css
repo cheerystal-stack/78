@@ -1075,3 +1075,74 @@ footer {
   border-color: #d4b36a;
   box-shadow: 0 0 12px rgba(212, 179, 106, 0.18);
 }
+.spread-result-screen {
+  display: none;
+  min-height: 100vh;
+  padding: 32px 20px 60px;
+}
+
+.spread-result-screen.active {
+  display: block;
+}
+
+.spread-cards {
+  display: grid;
+  gap: 24px;
+  margin: 36px 0;
+}
+
+.spread-card-slot {
+  text-align: center;
+}
+
+.spread-position {
+  margin-bottom: 10px;
+  color: #d4b36a;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+.spread-card {
+  width: 100%;
+  min-height: 220px;
+  padding: 20px;
+  border: 1px solid rgba(200, 169, 106, 0.5);
+  background: rgba(8, 13, 36, 0.65);
+  color: inherit;
+}
+
+.spread-card-back {
+  display: block;
+  color: #d4b36a;
+  font-size: 22px;
+  letter-spacing: 8px;
+}
+
+.spread-card-name,
+.spread-card-position {
+  display: none;
+}
+
+.spread-card.revealed .spread-card-back {
+  display: none;
+}
+
+.spread-card.revealed .spread-card-name,
+.spread-card.revealed .spread-card-position {
+  display: block;
+}
+
+.spread-card-name {
+  margin-top: 50px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+
+.spread-card-position {
+  margin-top: 14px;
+  color: #d4b36a;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
