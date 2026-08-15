@@ -32,6 +32,31 @@ const backNewReading = document.getElementById("backNewReading");
 const threeCardsBtn = document.getElementById("threeCardsBtn");
 const threeSpreadScreen = document.getElementById("threeSpreadScreen");
 const backThreeSpread = document.getElementById("backThreeSpread");
+const flowSpreadBtn = document.getElementById("flowSpreadBtn");
+
+const spreadQuestionScreen =
+  document.getElementById("spreadQuestionScreen");
+
+const backSpreadQuestion =
+  document.getElementById("backSpreadQuestion");
+
+const spreadQuestionTitle =
+  document.getElementById("spreadQuestionTitle");
+
+const spreadQuestionSubtitle =
+  document.getElementById("spreadQuestionSubtitle");
+
+const spreadQuestionInput =
+  document.getElementById("spreadQuestionInput");
+
+const spreadMoodChips =
+  document.querySelectorAll(".spread-mood-chip");
+
+const drawSpreadBtn =
+  document.getElementById("drawSpreadBtn");
+
+let selectedSpreadMood = "";
+let selectedSpread = "";
 
 
 /* ================================
@@ -1110,6 +1135,42 @@ backThreeSpread.addEventListener("click", () => {
   window.scrollTo(0, 0);
 });
 
+flowSpreadBtn.addEventListener("click", () => {
+
+  selectedSpread = "FLOW";
+
+  spreadQuestionTitle.textContent = "FLOW";
+  spreadQuestionSubtitle.textContent =
+    "past · present · future";
+
+  threeSpreadScreen.classList.remove("active");
+  spreadQuestionScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
+backSpreadQuestion.addEventListener("click", () => {
+
+  spreadQuestionScreen.classList.remove("active");
+  threeSpreadScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
+spreadMoodChips.forEach((chip) => {
+
+  chip.addEventListener("click", () => {
+
+    spreadMoodChips.forEach((item) => {
+      item.classList.remove("selected");
+    });
+
+    chip.classList.add("selected");
+    selectedSpreadMood = chip.dataset.mood;
+
+  });
+
+});
 readCardBtn.addEventListener("click", () => {
 
   const card = cardMeanings[cardName.textContent];
