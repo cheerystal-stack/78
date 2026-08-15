@@ -1258,8 +1258,100 @@ spreadMoodChips.forEach((chip) => {
     selectedSpreadMood = chip.dataset.mood;
 
   });
+  
+});
+
+copySpreadAiBtn.addEventListener("click", async () => {
+
+  if (currentSpreadCards.length !== 3) return;
+
+  const question =
+    spreadQuestionInput.value.trim() ||
+    "質問は入力されていません";
+
+  const mood =
+    selectedSpreadMood ||
+    "気分は選択されていません";
+
+  const labels = [
+    "PAST｜過去",
+    "PRESENT｜現在",
+    "FUTURE｜これから"
+  ];
+
+  const cardTexts = currentSpreadCards.map((result, index) => {
+
+    const cardName = result.card.name;
+
+    const position =
+      result.reversed ? "REVERSED ↓" : "UPRIGHT ↑";
+
+    const direction =
+      result.reversed ? "reversed" : "upright";
+
+    const meaning =
+      tarotMeanings[cardName]?.[direction];
+
+    const keywords =
+      meaning?.keywords || "";
+
+    const message =
+      meaning?.message || "";
+
+    return `
+【${labels[index]}】
+${cardName}
+${position}
+
+【基本キーワード】
+${keywords}
+
+【カードの基本メッセージ】
+${message}`;
+  }).join("\n");
+
+  const prompt = `タロットWebアプリ「78」で3枚のカードを引きました。
+
+【スプレッド】
+FLOW
+過去・現在・これから
+
+【質問】
+${question}
+
+【今の気分】
+${mood}
+
+【出たカード】
+${cardTexts}
+
+この3枚を、それぞれのポジションの意味と、
+タロットカードの一般的な象徴、
+私の質問・今の気分を踏まえて詳しく解釈してください。
+
+1枚ずつバラバラに読むだけでなく、
+3枚のつながりや流れも含めて説明してください。
+
+未来や他者の気持ちを事実として断定するのではなく、
+カードから考えられる可能性やニュアンスとして読んでください。
+
+質問と同じ言語で回答してください。`;
+
+  try {
+    await navigator.clipboard.writeText(prompt);
+
+    copySpreadAiBtn.textContent = "✓ COPIED";
+
+    setTimeout(() => {
+      copySpreadAiBtn.textContent = "✦ COPY FOR AI";
+    }, 1500);
+
+  } catch (error) {
+    console.error("Copy failed:", error);
+  }
 
 });
+
 readCardBtn.addEventListener("click", () => {
 
   const card = cardMeanings[cardName.textContent];
