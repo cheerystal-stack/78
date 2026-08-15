@@ -1081,14 +1081,14 @@ backOneCard.addEventListener("click", () => {
 });
 
 newReadingBtn.addEventListener("click", () => {
-  homeScreen.classList.remove("active");
+  homeScreen.classList.add("home-hidden");
   newReadingScreen.classList.add("active");
   window.scrollTo(0, 0);
 });
 
 backNewReading.addEventListener("click", () => {
   newReadingScreen.classList.remove("active");
-  homeScreen.classList.add("active");
+  homeScreen.classList.remove("home-hidden");
   window.scrollTo(0, 0);
 });
 
