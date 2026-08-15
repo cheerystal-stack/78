@@ -25,9 +25,13 @@ const copyAiBtn = document.getElementById("copyAiBtn");
 
 const meaningKeywords = document.getElementById("meaningKeywords");
 const meaningMessage = document.getElementById("meaningMessage");
+
 const newReadingBtn = document.getElementById("newReadingBtn");
 const newReadingScreen = document.getElementById("newReadingScreen");
 const backNewReading = document.getElementById("backNewReading");
+const threeCardsBtn = document.getElementById("threeCardsBtn");
+const threeSpreadScreen = document.getElementById("threeSpreadScreen");
+const backThreeSpread = document.getElementById("backThreeSpread");
 
 
 /* ================================
@@ -1089,6 +1093,20 @@ newReadingBtn.addEventListener("click", () => {
 backNewReading.addEventListener("click", () => {
   newReadingScreen.classList.remove("active");
   homeScreen.classList.remove("home-hidden");
+  window.scrollTo(0, 0);
+});
+
+threeCardsBtn.addEventListener("click", () => {
+  newReadingScreen.classList.remove("active");
+  threeSpreadScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
+backThreeSpread.addEventListener("click", () => {
+  threeSpreadScreen.classList.remove("active");
+  newReadingScreen.classList.add("active");
+
   window.scrollTo(0, 0);
 });
 
