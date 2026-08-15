@@ -25,6 +25,9 @@ const copyAiBtn = document.getElementById("copyAiBtn");
 
 const meaningKeywords = document.getElementById("meaningKeywords");
 const meaningMessage = document.getElementById("meaningMessage");
+const newReadingBtn = document.getElementById("newReadingBtn");
+const newReadingScreen = document.getElementById("newReadingScreen");
+const backNewReading = document.getElementById("backNewReading");
 
 
 /* ================================
@@ -1076,6 +1079,19 @@ backOneCard.addEventListener("click", () => {
   window.scrollTo(0, 0);
 
 });
+
+newReadingBtn.addEventListener("click", () => {
+  homeScreen.classList.remove("active");
+  newReadingScreen.classList.add("active");
+  window.scrollTo(0, 0);
+});
+
+backNewReading.addEventListener("click", () => {
+  newReadingScreen.classList.remove("active");
+  homeScreen.classList.add("active");
+  window.scrollTo(0, 0);
+});
+
 readCardBtn.addEventListener("click", () => {
 
   const card = cardMeanings[cardName.textContent];
