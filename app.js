@@ -1238,6 +1238,20 @@ flowSpreadBtn.addEventListener("click", () => {
   window.scrollTo(0, 0);
 });
 
+relationshipSpreadBtn.addEventListener("click", () => {
+
+  selectedSpread = "RELATIONSHIP";
+
+  spreadQuestionTitle.textContent = "RELATIONSHIP";
+  spreadQuestionSubtitle.textContent =
+    "you · them · connection";
+
+  threeSpreadScreen.classList.remove("active");
+  spreadQuestionScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
 backSpreadQuestion.addEventListener("click", () => {
 
   spreadQuestionScreen.classList.remove("active");
