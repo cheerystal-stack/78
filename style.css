@@ -1200,3 +1200,18 @@ footer {
   font-size: 11px;
   letter-spacing: 2px;
 }
+/* =========================
+   TAROT CARD BACK
+========================= */
+
+.spread-card:not(.revealed) {
+  background-image: url("card-back.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.spread-card:not(.revealed) .spread-card-name,
+.spread-card:not(.revealed) .spread-card-position {
+  visibility: hidden;
+}
