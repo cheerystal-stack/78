@@ -1160,19 +1160,8 @@ footer {
   color: inherit;
 }
 
-.spread-card-back {
-  display: block;
-  color: #d4b36a;
-  font-size: 22px;
-  letter-spacing: 8px;
-}
-
 .spread-card-name,
 .spread-card-position {
-  display: none;
-}
-
-.spread-card.revealed .spread-card-back {
   display: none;
 }
 
