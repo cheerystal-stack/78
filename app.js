@@ -1261,6 +1261,20 @@ relationshipSpreadBtn.addEventListener("click", () => {
   window.scrollTo(0, 0);
 });
 
+guidanceSpreadBtn.addEventListener("click", () => {
+
+  selectedSpread = "GUIDANCE";
+
+  spreadQuestionTitle.textContent = "GUIDANCE";
+  spreadQuestionSubtitle.textContent =
+    "situation · challenge · advice";
+
+  threeSpreadScreen.classList.remove("active");
+  spreadQuestionScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
 backSpreadQuestion.addEventListener("click", () => {
 
   spreadQuestionScreen.classList.remove("active");
