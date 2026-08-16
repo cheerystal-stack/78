@@ -1087,6 +1087,15 @@ function drawThreeCards() {
       reversed: Math.random() < 0.5
     }));
 
+  const spreadLabels =
+  selectedSpread === "RELATIONSHIP"
+    ? ["YOU", "THEM", "CONNECTION"]
+    : ["PAST", "PRESENT", "FUTURE"];
+
+document.querySelectorAll(".spread-position").forEach((label, index) => {
+  label.textContent = spreadLabels[index];
+});
+
   spreadCards.forEach((element, index) => {
 
     const result = currentSpreadCards[index];
