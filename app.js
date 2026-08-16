@@ -1340,11 +1340,15 @@ ${keywords}
 ${message}`;
   }).join("\n");
 
+  const spreadDescription =
+  selectedSpread === "RELATIONSHIP"
+    ? "RELATIONSHIP\nあなた・相手・ふたりの関係"
+    : "FLOW\n過去・現在・これから";
+
   const prompt = `タロットWebアプリ「78」で3枚のカードを引きました。
 
 【スプレッド】
-FLOW
-過去・現在・これから
+${spreadDescription}
 
 【質問】
 ${question}
