@@ -1319,6 +1319,12 @@ copySpreadAiBtn.addEventListener("click", async () => {
         "THEM｜相手",
         "CONNECTION｜ふたりの関係"
       ]
+    : selectedSpread === "GUIDANCE"
+    ? [
+        "SITUATION｜状況",
+        "CHALLENGE｜課題",
+        "ADVICE｜アドバイス"
+      ]
     : [
         "PAST｜過去",
         "PRESENT｜現在",
@@ -1359,8 +1365,10 @@ ${message}`;
   const spreadDescription =
   selectedSpread === "RELATIONSHIP"
     ? "RELATIONSHIP\nあなた・相手・ふたりの関係"
+    : selectedSpread === "GUIDANCE"
+    ? "GUIDANCE\n状況・課題・アドバイス"
     : "FLOW\n過去・現在・これから";
-
+  
   const prompt = `タロットWebアプリ「78」で3枚のカードを引きました。
 
 【スプレッド】
