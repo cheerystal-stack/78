@@ -1296,11 +1296,18 @@ copySpreadAiBtn.addEventListener("click", async () => {
     selectedSpreadMood ||
     "気分は選択されていません";
 
-  const labels = [
-    "PAST｜過去",
-    "PRESENT｜現在",
-    "FUTURE｜これから"
-  ];
+  const labels =
+  selectedSpread === "RELATIONSHIP"
+    ? [
+        "YOU｜あなた",
+        "THEM｜相手",
+        "CONNECTION｜ふたりの関係"
+      ]
+    : [
+        "PAST｜過去",
+        "PRESENT｜現在",
+        "FUTURE｜これから"
+      ];
 
   const cardTexts = currentSpreadCards.map((result, index) => {
 
