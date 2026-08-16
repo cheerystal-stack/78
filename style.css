@@ -1204,3 +1204,48 @@ footer {
 .spread-card:not(.revealed) .spread-card-position {
   visibility: hidden;
 }
+/* =========================
+   HOME TAROT CARD
+========================= */
+
+.home-card-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 34px;
+}
+
+.home-tarot-card {
+  width: 118px;
+  aspect-ratio: 2 / 3;
+
+  border: 1px solid rgba(200,169,106,0.6);
+  border-radius: 6px;
+
+  background-image: url("card-back.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,0.35),
+    0 0 22px rgba(200,169,106,0.10);
+
+  cursor: pointer;
+
+  animation: homeCardFloat 5s ease-in-out infinite;
+}
+
+.home-tarot-card:active {
+  transform: scale(0.97);
+}
+
+@keyframes homeCardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
