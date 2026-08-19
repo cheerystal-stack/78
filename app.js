@@ -85,6 +85,27 @@ const copySpreadAiBtn =
 const drawSpreadAgain =
   document.getElementById("drawSpreadAgain");
 
+const physicalReadingBtn =
+  document.getElementById("physicalReadingBtn");
+
+const virtualReadingBtn =
+  document.getElementById("virtualReadingBtn");
+
+const physicalSpreadScreen =
+  document.getElementById("physicalSpreadScreen");
+
+const backPhysicalSpread =
+  document.getElementById("backPhysicalSpread");
+
+const physicalThreeBtn =
+  document.getElementById("physicalThreeBtn");
+
+const physicalFiveBtn =
+  document.getElementById("physicalFiveBtn");
+
+const physicalHexagramBtn =
+  document.getElementById("physicalHexagramBtn");
+
 let selectedSpreadMood = "";
 let selectedSpread = "";
 let currentSpreadCards = [];
