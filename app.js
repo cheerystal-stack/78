@@ -111,6 +111,21 @@ const physicalFiveBtn =
 const physicalHexagramBtn =
   document.getElementById("physicalHexagramBtn");
 
+const physicalSpreadScreen =
+  document.getElementById("physicalSpreadScreen");
+
+const backPhysicalSpread =
+  document.getElementById("backPhysicalSpread");
+
+const physicalThreeBtn =
+  document.getElementById("physicalThreeBtn");
+
+const physicalFiveBtn =
+  document.getElementById("physicalFiveBtn");
+
+const physicalHexagramBtn =
+  document.getElementById("physicalHexagramBtn");
+
 let selectedSpreadMood = "";
 let selectedSpread = "";
 let currentSpreadCards = [];
@@ -1250,6 +1265,20 @@ backNewReading.addEventListener("click", () => {
 virtualReadingBtn.addEventListener("click", () => {
   newReadingScreen.classList.remove("active");
   threeSpreadScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
+physicalReadingBtn.addEventListener("click", () => {
+  newReadingScreen.classList.remove("active");
+  physicalSpreadScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
+backPhysicalSpread.addEventListener("click", () => {
+  physicalSpreadScreen.classList.remove("active");
+  newReadingScreen.classList.add("active");
 
   window.scrollTo(0, 0);
 });
