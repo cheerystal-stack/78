@@ -29,6 +29,11 @@ const meaningMessage = document.getElementById("meaningMessage");
 const newReadingBtn = document.getElementById("newReadingBtn");
 const newReadingScreen = document.getElementById("newReadingScreen");
 const backNewReading = document.getElementById("backNewReading");
+const physicalReadingBtn =
+  document.getElementById("physicalReadingBtn");
+
+const virtualReadingBtn =
+  document.getElementById("virtualReadingBtn");
 const threeCardsBtn = document.getElementById("threeCardsBtn");
 const threeSpreadScreen = document.getElementById("threeSpreadScreen");
 const backThreeSpread = document.getElementById("backThreeSpread");
@@ -1242,9 +1247,23 @@ backNewReading.addEventListener("click", () => {
   window.scrollTo(0, 0);
 });
 
-threeCardsBtn.addEventListener("click", () => {
+virtualReadingBtn.addEventListener("click", () => {
   newReadingScreen.classList.remove("active");
   threeSpreadScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
+physicalReadingBtn.addEventListener("click", () => {
+  newReadingScreen.classList.remove("active");
+  physicalSpreadScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
+backPhysicalSpread.addEventListener("click", () => {
+  physicalSpreadScreen.classList.remove("active");
+  newReadingScreen.classList.add("active");
 
   window.scrollTo(0, 0);
 });
