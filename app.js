@@ -106,6 +106,18 @@ const physicalFiveBtn =
 const physicalHexagramBtn =
   document.getElementById("physicalHexagramBtn");
 
+const physicalThreeRecordScreen =
+  document.getElementById("physicalThreeRecordScreen");
+
+const backPhysicalThreeRecord =
+  document.getElementById("backPhysicalThreeRecord");
+
+const physicalQuestionInput =
+  document.getElementById("physicalQuestionInput");
+
+const physicalSummaryInput =
+  document.getElementById("physicalSummaryInput");
+
 let selectedSpreadMood = "";
 let selectedSpread = "";
 let currentSpreadCards = [];
@@ -1259,6 +1271,20 @@ physicalReadingBtn.addEventListener("click", () => {
 backPhysicalSpread.addEventListener("click", () => {
   physicalSpreadScreen.classList.remove("active");
   newReadingScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
+physicalThreeBtn.addEventListener("click", () => {
+  physicalSpreadScreen.classList.remove("active");
+  physicalThreeRecordScreen.classList.add("active");
+
+  window.scrollTo(0, 0);
+});
+
+backPhysicalThreeRecord.addEventListener("click", () => {
+  physicalThreeRecordScreen.classList.remove("active");
+  physicalSpreadScreen.classList.add("active");
 
   window.scrollTo(0, 0);
 });
