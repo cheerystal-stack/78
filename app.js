@@ -1500,7 +1500,9 @@ ${cardTexts}
 未来や他者の気持ちを事実として断定するのではなく、
 カードから考えられる可能性やニュアンスとして読んでください。
 
-質問と同じ言語で回答してください。`;
+質問と同じ言語で回答してください。
+
+最後に、HISTORYへ保存しやすい120〜180字程度の「AI SUMMARY」を付けてください。`;
 
   try {
     await navigator.clipboard.writeText(prompt);
@@ -1900,3 +1902,92 @@ function renderCardLibrary(suit) {
 }
 if(cardsLibraryBtn) cardsLibraryBtn.addEventListener("click",()=>{renderSuitOverview();hideHomeAndOpen(cardsLibraryScreen)});
 if(backCardsLibrary) backCardsLibrary.addEventListener("click",()=>closeToHome(cardsLibraryScreen));
+
+
+/* ================================
+   78 v6 — GREEK CROSS + OPTIONAL VIRTUAL HISTORY
+================================ */
+const greekLabels = ["PRESENT | 現状","OBSTACLE | 障害","TENDENCY | 傾向","ADVICE | 対策","OUTCOME | 結果"];
+const greekAreas = ["present","obstacle","tendency","advice","outcome"];
+let selectedFiveMood = "", selectedVirtualFiveMood = "", currentVirtualFiveCards = [], virtualThreeSaved = false, virtualFiveSaved = false;
+
+function directionToggleHTML(i, cls="five-direction-toggle") { return `<div class="direction-toggle ${cls}" data-index="${i}"><button type="button" class="direction-btn selected" data-direction="UPRIGHT">UPRIGHT ↑</button><button type="button" class="direction-btn" data-direction="REVERSED">REVERSED ↓</button></div>`; }
+function wireDirectionToggles(root, selector) { root.querySelectorAll(selector).forEach(group=>group.addEventListener("click",e=>{const b=e.target.closest(".direction-btn");if(!b)return;group.querySelectorAll(".direction-btn").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");})); }
+function renderFiveEntries(){ const root=document.getElementById("fiveCardEntries"); if(!root)return; root.innerHTML=greekLabels.map((label,i)=>`<div class="greek-slot greek-${greekAreas[i]}"><p class="greek-number">${i+1}</p><p class="meaning-label">${label}</p><select class="record-select five-card-select" data-index="${i}">${tarotOptions()}</select>${directionToggleHTML(i)}</div>`).join(""); wireDirectionToggles(root,".five-direction-toggle"); }
+function getFiveCards(){ return [...document.querySelectorAll(".five-card-select")].map((s,i)=>({label:greekLabels[i],name:s.value,direction:document.querySelector(`.five-direction-toggle[data-index="${i}"] .direction-btn.selected`)?.dataset.direction||"UPRIGHT"})); }
+function historyEntry(method,spread,question,mood,cards,summary=""){ return {id:Date.now()+Math.random(),createdAt:new Date().toISOString(),method,spread,question,mood,cards,summary}; }
+function flash(el,text="✓ SAVED TO HISTORY"){ if(!el)return;el.textContent=text;setTimeout(()=>el.textContent="",1800); }
+function cardPromptBlock(cards){return cards.map(c=>{const d=c.direction==="REVERSED"?"reversed":"upright",m=cardMeanings[c.name]?.[d];return `【${c.label}】
+${c.name}
+${c.direction==="REVERSED"?"REVERSED ↓":"UPRIGHT ↑"}
+
+【基本キーワード】
+${m?.keywords||""}
+
+【カードの基本メッセージ】
+${m?.message||""}`}).join("\n\n");}
+async function copyText(btn,text){try{await navigator.clipboard.writeText(text);const o=btn.textContent;btn.textContent="✓ COPIED";setTimeout(()=>btn.textContent=o,1500)}catch(e){console.error(e)}}
+
+const physicalFiveRecordScreen=document.getElementById("physicalFiveRecordScreen"), backPhysicalFiveRecord=document.getElementById("backPhysicalFiveRecord");
+if(physicalFiveBtn) physicalFiveBtn.addEventListener("click",()=>{physicalSpreadScreen.classList.remove("active");physicalFiveRecordScreen.classList.add("active");renderFiveEntries();window.scrollTo(0,0)});
+if(backPhysicalFiveRecord) backPhysicalFiveRecord.addEventListener("click",()=>{physicalFiveRecordScreen.classList.remove("active");physicalSpreadScreen.classList.add("active");window.scrollTo(0,0)});
+document.querySelectorAll(".five-mood-chip").forEach(ch=>ch.addEventListener("click",()=>{document.querySelectorAll(".five-mood-chip").forEach(x=>x.classList.remove("selected"));ch.classList.add("selected");selectedFiveMood=ch.dataset.mood}));
+const copyFiveAiBtn=document.getElementById("copyFiveAiBtn"), fiveQuestionInput=document.getElementById("fiveQuestionInput"), fiveSummaryInput=document.getElementById("fiveSummaryInput");
+if(copyFiveAiBtn) copyFiveAiBtn.addEventListener("click",()=>copyText(copyFiveAiBtn,`タロットWebアプリ「78」でギリシャ十字（5枚）を展開しました。
+
+【質問】
+${fiveQuestionInput.value.trim()||"質問は入力されていません"}
+
+【今の気分】
+${selectedFiveMood||"気分は選択されていません"}
+
+【出たカード】
+${cardPromptBlock(getFiveCards())}
+
+①現状、②障害、③傾向、④対策、⑤結果という配置です。③傾向は単純な未来予測ではなく、現在働いている流れ・向かいやすい方向として読んでください。各カードを位置の意味と結びつけ、5枚全体の関係も統合して詳しく解釈してください。未来や他者の気持ちは事実として断定せず、カードから考えられる可能性やニュアンスとして読んでください。最後に、HISTORYへ保存しやすい180〜250字程度の「AI SUMMARY」を付けてください。`));
+const saveFiveReadingBtn=document.getElementById("saveFiveReadingBtn"); if(saveFiveReadingBtn) saveFiveReadingBtn.addEventListener("click",()=>{const a=loadHistory();a.unshift(historyEntry("PHYSICAL","GREEK CROSS",fiveQuestionInput.value.trim(),selectedFiveMood,getFiveCards(),fiveSummaryInput.value.trim()));saveHistory(a);flash(document.getElementById("fiveSaveStatus"));});
+
+const virtualFiveBtn=document.getElementById("virtualFiveBtn"), virtualFiveQuestionScreen=document.getElementById("virtualFiveQuestionScreen"), virtualFiveResultScreen=document.getElementById("virtualFiveResultScreen");
+if(virtualFiveBtn) virtualFiveBtn.addEventListener("click",()=>{threeSpreadScreen.classList.remove("active");virtualFiveQuestionScreen.classList.add("active");window.scrollTo(0,0)});
+document.getElementById("backVirtualFiveQuestion")?.addEventListener("click",()=>{virtualFiveQuestionScreen.classList.remove("active");threeSpreadScreen.classList.add("active")});
+document.querySelectorAll(".virtual-five-mood-chip").forEach(ch=>ch.addEventListener("click",()=>{document.querySelectorAll(".virtual-five-mood-chip").forEach(x=>x.classList.remove("selected"));ch.classList.add("selected");selectedVirtualFiveMood=ch.dataset.mood}));
+function drawFive(){const deck=[...tarotDeck];for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}currentVirtualFiveCards=deck.slice(0,5).map((card,i)=>({label:greekLabels[i],card,reversed:Math.random()<.5}));virtualFiveSaved=false;document.getElementById("saveVirtualFiveBtn").textContent="♡ SAVE TO HISTORY";renderVirtualFive(false);virtualFiveQuestionScreen.classList.remove("active");virtualFiveResultScreen.classList.add("active");window.scrollTo(0,0)}
+function renderVirtualFive(reveal=false){const root=document.getElementById("virtualFiveBoard");root.innerHTML=currentVirtualFiveCards.map((r,i)=>`<button class="greek-slot greek-${greekAreas[i]} virtual-five-card ${reveal?'revealed':''}" data-index="${i}"><p class="greek-number">${i+1}</p><p class="meaning-label">${greekLabels[i]}</p><div class="virtual-card-face"><strong>${r.card.name}</strong><span>${r.reversed?'REVERSED ↓':'UPRIGHT ↑'}</span></div></button>`).join("");root.querySelectorAll(".virtual-five-card").forEach(b=>b.addEventListener("click",()=>b.classList.add("revealed")));}
+document.getElementById("drawVirtualFiveBtn")?.addEventListener("click",drawFive); document.getElementById("drawVirtualFiveAgain")?.addEventListener("click",drawFive);
+document.getElementById("backVirtualFiveResult")?.addEventListener("click",()=>{virtualFiveResultScreen.classList.remove("active");virtualFiveQuestionScreen.classList.add("active")});
+document.getElementById("readVirtualFiveBtn")?.addEventListener("click",()=>{const box=document.getElementById("virtualFiveMeanings");box.innerHTML=currentVirtualFiveCards.map((r,i)=>{const d=r.reversed?"reversed":"upright",m=cardMeanings[r.card.name]?.[d];return `<article class="meaning-card"><p class="meaning-label">${greekLabels[i]}</p><h3>${r.card.name} ${r.reversed?'↓':'↑'}</h3><p>${m?.keywords||""}</p><p>${m?.message||""}</p></article>`}).join("");box.classList.toggle("active")});
+function virtualFiveHistoryCards(){return currentVirtualFiveCards.map((r,i)=>({label:greekLabels[i],name:r.card.name,direction:r.reversed?"REVERSED":"UPRIGHT"}))}
+const virtualFiveQuestionInput=document.getElementById("virtualFiveQuestionInput"), copyVirtualFiveAiBtn=document.getElementById("copyVirtualFiveAiBtn"); if(copyVirtualFiveAiBtn)copyVirtualFiveAiBtn.addEventListener("click",()=>copyText(copyVirtualFiveAiBtn,`タロットWebアプリ「78」でギリシャ十字（5枚）のカードを引きました。
+
+【質問】
+${virtualFiveQuestionInput.value.trim()||"質問は入力されていません"}
+
+【今の気分】
+${selectedVirtualFiveMood||"気分は選択されていません"}
+
+【出たカード】
+${cardPromptBlock(virtualFiveHistoryCards())}
+
+①現状、②障害、③傾向、④対策、⑤結果として、位置同士の関係を含めて統合的に解釈してください。③傾向は現在働いている流れ・向かいやすい方向として扱ってください。未来や他者の気持ちは事実として断定しないでください。最後にHISTORY用の180〜250字程度のAI SUMMARYを付けてください。`));
+document.getElementById("saveVirtualFiveBtn")?.addEventListener("click",e=>{if(virtualFiveSaved)return;const a=loadHistory();a.unshift(historyEntry("VIRTUAL","GREEK CROSS",virtualFiveQuestionInput.value.trim(),selectedVirtualFiveMood,virtualFiveHistoryCards(),document.getElementById("virtualFiveSummaryInput").value.trim()));saveHistory(a);virtualFiveSaved=true;e.currentTarget.textContent="✓ SAVED";flash(document.getElementById("virtualFiveSaveStatus"));});
+
+// Virtual 3-card: save only when the user explicitly chooses to.
+const saveVirtualThreeBtn=document.getElementById("saveVirtualThreeBtn");
+if(saveVirtualThreeBtn) saveVirtualThreeBtn.addEventListener("click",()=>{if(virtualThreeSaved||currentSpreadCards.length!==3)return;const labels=getSpreadLabels(selectedSpread),cards=currentSpreadCards.map((r,i)=>({label:labels[i],name:r.card.name,direction:r.reversed?"REVERSED":"UPRIGHT"})),a=loadHistory();a.unshift(historyEntry("VIRTUAL",selectedSpread,spreadQuestionInput.value.trim(),selectedSpreadMood,cards,document.getElementById("virtualThreeSummaryInput").value.trim()));saveHistory(a);virtualThreeSaved=true;saveVirtualThreeBtn.textContent="✓ SAVED";flash(document.getElementById("virtualThreeSaveStatus"));});
+// Reset optional-save state whenever a new 3-card draw is made.
+const originalDrawThreeCards=drawThreeCards; drawThreeCards=function(){virtualThreeSaved=false;if(saveVirtualThreeBtn)saveVirtualThreeBtn.textContent="♡ SAVE TO HISTORY";return originalDrawThreeCards();};
+
+function renderHistoryThree(cards){return `<div class="history-three">${cards.map((c,i)=>`<div class="history-mini-slot"><span>${normalizeHistoryLabel(c.label)}</span><strong>${c.name}</strong><em>${c.direction==="REVERSED"?'REVERSED ↓':'UPRIGHT ↑'}</em></div>`).join("")}</div>`}
+function renderHistoryGreek(cards){return `<div class="history-greek">${cards.map((c,i)=>`<div class="history-mini-slot history-greek-${greekAreas[i]}"><span>${i+1} · ${normalizeHistoryLabel(c.label)}</span><strong>${c.name}</strong><em>${c.direction==="REVERSED"?'REVERSED ↓':'UPRIGHT ↑'}</em></div>`).join("")}</div>`}
+// Upgrade history renderer: preserve old records and add visual 3/5-card layouts.
+renderHistory=function(){const items=loadHistory();if(!items.length){historyList.innerHTML='<div class="empty-state">No readings yet.<br><small>Your saved readings will appear here.</small></div>';return}historyList.innerHTML=items.map(item=>{const date=new Date(item.createdAt||item.id).toLocaleString("ja-JP",{year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"});const cards=(item.cards||[]).map(c=>({...c,label:normalizeHistoryLabel(c.label)}));const mini=item.spread==="HEXAGRAM"?renderHistoryHexagram(cards):item.spread==="GREEK CROSS"?renderHistoryGreek(cards):cards.length===3?renderHistoryThree(cards):"";const list=`<div class="history-cards">${cards.map(c=>`<p><strong>${c.label}</strong> · ${c.name} ${c.direction==="REVERSED"?"↓":"↑"}</p>`).join("")}</div>`;return `<article class="history-card"><div class="history-meta"><span>${item.method||""}</span><span>${date}</span></div><h3>${item.spread}</h3>${item.question?`<p class="history-question">${item.question}</p>`:""}${mini}${list}${item.mood?`<p class="history-mood">MOOD · ${item.mood}</p>`:""}${item.summary?`<div class="history-summary"><span>AI SUMMARY</span><p>${item.summary}</p></div>`:""}<button class="history-delete" data-id="${item.id}">DELETE</button></article>`}).join("");historyList.querySelectorAll(".history-delete").forEach(btn=>btn.addEventListener("click",()=>{saveHistory(loadHistory().filter(x=>String(x.id)!==btn.dataset.id));renderHistory()}));};
+
+
+// Physical 3-card AI prompt.
+const copyPhysicalThreeAiBtn=document.getElementById("copyPhysicalThreeAiBtn");
+if(copyPhysicalThreeAiBtn) copyPhysicalThreeAiBtn.addEventListener("click",()=>{
+  const labels=getSpreadLabels(physicalSpreadType.value);
+  const cards=[...document.querySelectorAll(".physical-card-select")].map((s,i)=>({label:labels[i],name:s.value,direction:document.querySelector(`.direction-toggle[data-index="${i}"] .direction-btn.selected`)?.dataset.direction||"UPRIGHT"}));
+  const descriptions={FLOW:"過去・現在・これから",RELATIONSHIP:"あなた・相手・ふたりの関係",GUIDANCE:"状況・課題・アドバイス"};
+  copyText(copyPhysicalThreeAiBtn,`タロットWebアプリ「78」で3枚のカードを展開しました。\n\n【スプレッド】\n${physicalSpreadType.value}\n${descriptions[physicalSpreadType.value]}\n\n【質問】\n${physicalQuestionInput.value.trim()||"質問は入力されていません"}\n\n【今の気分】\n${selectedPhysicalMood||"気分は選択されていません"}\n\n【出たカード】\n${cardPromptBlock(cards)}\n\nそれぞれのポジションの意味とカードの一般的な象徴を踏まえ、3枚をばらばらにせず全体のつながり・流れとして詳しく解釈してください。未来や他者の気持ちは事実として断定せず、カードから考えられる可能性やニュアンスとして読んでください。最後にHISTORYへ保存しやすい120〜180字程度のAI SUMMARYを付けてください。`);
+});

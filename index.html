@@ -177,9 +177,49 @@
 
   <div class="physical-card-entry" id="physicalCardEntries"></div>
 
+  <button class="copy-ai-button" id="copyPhysicalThreeAiBtn">✦ COPY FOR AI</button>
+
   <div class="question-area"><label for="physicalSummaryInput">AI SUMMARY</label><textarea id="physicalSummaryInput" placeholder="paste your ~100 character summary here..." rows="4"></textarea><p class="optional-text">optional — you can add it later.</p></div>
   <button class="copy-ai-button" id="savePhysicalReadingBtn">✦ SAVE TO HISTORY</button>
   <p class="save-status" id="physicalSaveStatus"></p>
+</section>
+
+
+<!-- PHYSICAL 5 CARD / GREEK CROSS RECORD -->
+<section class="spread-question-screen" id="physicalFiveRecordScreen">
+  <button class="back-button" id="backPhysicalFiveRecord">← PHYSICAL</button>
+  <div class="screen-heading"><div class="small-symbol">☾　✦　☽</div><h2>GREEK CROSS</h2><p>record your five-card reading.</p></div>
+  <div class="question-area"><label for="fiveQuestionInput">YOUR QUESTION</label><textarea id="fiveQuestionInput" placeholder="what did you ask?" rows="3"></textarea></div>
+  <div class="mood-area"><p class="mood-title">HOW DID YOU FEEL?</p><div class="mood-buttons" id="fiveMoodButtons">
+    <button type="button" class="five-mood-chip" data-mood="不安">不安</button><button type="button" class="five-mood-chip" data-mood="期待">期待</button><button type="button" class="five-mood-chip" data-mood="嬉しい">嬉しい</button><button type="button" class="five-mood-chip" data-mood="怒り">怒り</button><button type="button" class="five-mood-chip" data-mood="嫉妬">嫉妬</button><button type="button" class="five-mood-chip" data-mood="迷い">迷い</button><button type="button" class="five-mood-chip" data-mood="寂しい">寂しい</button><button type="button" class="five-mood-chip" data-mood="平常">平常</button>
+  </div></div>
+  <div class="greek-board" id="fiveCardEntries"></div>
+  <button class="copy-ai-button" id="copyFiveAiBtn">✦ COPY FOR AI</button>
+  <div class="question-area"><label for="fiveSummaryInput">AI SUMMARY</label><textarea id="fiveSummaryInput" placeholder="paste your 180–250 character summary here..." rows="5"></textarea><p class="optional-text">optional — you can add it later.</p></div>
+  <button class="copy-ai-button" id="saveFiveReadingBtn">✦ SAVE TO HISTORY</button><p class="save-status" id="fiveSaveStatus"></p>
+</section>
+
+<!-- VIRTUAL 5 CARD / GREEK CROSS -->
+<section class="spread-question-screen" id="virtualFiveQuestionScreen">
+  <button class="back-button" id="backVirtualFiveQuestion">← VIRTUAL</button>
+  <div class="screen-heading"><div class="small-symbol">☾　✦　☽</div><h2>GREEK CROSS</h2><p>present · obstacle · tendency · advice · outcome</p></div>
+  <div class="question-area"><label for="virtualFiveQuestionInput">YOUR QUESTION</label><textarea id="virtualFiveQuestionInput" placeholder="what do you want to ask?" rows="3"></textarea></div>
+  <div class="mood-area"><p class="mood-title">HOW DO YOU FEEL?</p><div class="mood-buttons">
+    <button type="button" class="virtual-five-mood-chip" data-mood="不安">不安</button><button type="button" class="virtual-five-mood-chip" data-mood="期待">期待</button><button type="button" class="virtual-five-mood-chip" data-mood="嬉しい">嬉しい</button><button type="button" class="virtual-five-mood-chip" data-mood="怒り">怒り</button><button type="button" class="virtual-five-mood-chip" data-mood="嫉妬">嫉妬</button><button type="button" class="virtual-five-mood-chip" data-mood="迷い">迷い</button><button type="button" class="virtual-five-mood-chip" data-mood="寂しい">寂しい</button><button type="button" class="virtual-five-mood-chip" data-mood="平常">平常</button>
+  </div></div>
+  <button class="draw-from-question" id="drawVirtualFiveBtn">✦ DRAW 5 CARDS</button>
+</section>
+
+<section class="spread-question-screen" id="virtualFiveResultScreen">
+  <button class="back-button" id="backVirtualFiveResult">← GREEK CROSS</button>
+  <div class="result-heading"><div class="small-symbol">☾　✦　☽</div><p>THE CARDS HAVE SPOKEN</p></div>
+  <div class="greek-board virtual-greek-board" id="virtualFiveBoard"></div>
+  <button class="read-card-button compact-reading-btn" id="readVirtualFiveBtn">✦ READ THE CARDS</button>
+  <div class="spread-meanings" id="virtualFiveMeanings"></div>
+  <button class="copy-ai-button" id="copyVirtualFiveAiBtn">✦ COPY FOR AI</button>
+  <div class="question-area virtual-summary-area"><label for="virtualFiveSummaryInput">AI SUMMARY</label><textarea id="virtualFiveSummaryInput" placeholder="optional — paste your summary here..." rows="5"></textarea></div>
+  <button class="copy-ai-button" id="saveVirtualFiveBtn">♡ SAVE TO HISTORY</button><p class="save-status" id="virtualFiveSaveStatus"></p>
+  <button class="draw-again" id="drawVirtualFiveAgain">✦ DRAW AGAIN</button>
 </section>
 
   <!-- PHYSICAL HEXAGRAM RECORD -->
@@ -211,7 +251,7 @@
 
   <div class="screen-heading">
     <div class="small-symbol">☾　✦　☽</div>
-    <h2>3 CARDS</h2>
+    <h2>VIRTUAL</h2>
     <p>choose your spread.</p>
   </div>
 
@@ -233,6 +273,12 @@
       <span class="option-symbol">✦</span>
       <strong>GUIDANCE</strong>
       <small>situation · challenge · advice</small>
+    </button>
+
+    <button class="spread-option" id="virtualFiveBtn">
+      <span class="option-symbol">✦</span>
+      <strong>5 CARDS</strong>
+      <small>Greek Cross · deeper reading</small>
     </button>
 
   </div>
@@ -288,6 +334,13 @@
   <button class="copy-ai-button" id="copySpreadAiBtn">
     ✦ COPY FOR AI
   </button>
+
+  <div class="question-area virtual-summary-area">
+    <label for="virtualThreeSummaryInput">AI SUMMARY</label>
+    <textarea id="virtualThreeSummaryInput" placeholder="optional — paste your summary here..." rows="4"></textarea>
+  </div>
+  <button class="copy-ai-button" id="saveVirtualThreeBtn">♡ SAVE TO HISTORY</button>
+  <p class="save-status" id="virtualThreeSaveStatus"></p>
 
   <button class="draw-again" id="drawSpreadAgain">
     ✦ DRAW AGAIN
@@ -536,7 +589,7 @@
   <div class="history-list" id="historyList"></div>
 </section>
 
-<script src="app.js?V=5"></script>
+<script src="app.js?V=6"></script>
   
 </body>
 </html>
