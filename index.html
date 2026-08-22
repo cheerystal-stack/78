@@ -71,11 +71,11 @@
 
     <nav class="sub-menu">
 
-      <button>HISTORY</button>
+      <button id="historyBtn">HISTORY</button>
 
       <span class="nav-star">✦</span>
 
-      <button>CARDS</button>
+      <button id="cardsLibraryBtn">CARDS</button>
 
     </nav>
 
@@ -136,43 +136,6 @@
     <button class="spread-option" id="physicalThreeBtn">
       <span class="option-symbol">✦</span>
       <strong>3 CARDS</strong>
-      <small>a focused reading</small>
-    </button>
-
-    <button class="spread-option" id="physicalFiveBtn">
-      <span class="option-symbol">☾</span>
-      <strong>5 CARDS</strong>
-      <small>a deeper reading</small>
-    </button>
-
-    <button class="spread-option" id="physicalHexagramBtn">
-      <span class="option-symbol">✦</span>
-      <strong>HEXAGRAM</strong>
-      <small>a seven-card reading</small>
-    </button>
-
-  </div>
-
-</section>
-
-  <!-- PHYSICAL SPREAD SELECT -->
-<section class="spread-screen" id="physicalSpreadScreen">
-
-  <button class="back-button" id="backPhysicalSpread">
-    ← NEW READING
-  </button>
-
-  <div class="screen-heading">
-    <div class="small-symbol">☾　✦　☽</div>
-    <h2>PHYSICAL</h2>
-    <p>choose your spread.</p>
-  </div>
-
-  <div class="spread-options">
-
-    <button class="spread-option" id="physicalThreeBtn">
-      <span class="option-symbol">✦</span>
-      <strong>3 CARDS</strong>
       <small>three card reading</small>
     </button>
 
@@ -194,69 +157,29 @@
 
   <!-- PHYSICAL 3 CARD RECORD -->
 <section class="spread-question-screen" id="physicalThreeRecordScreen">
-
-  <button class="back-button" id="backPhysicalThreeRecord">
-    ← PHYSICAL
-  </button>
-
-  <div class="screen-heading">
-    <div class="small-symbol">☾　✦　☽</div>
-    <h2>3 CARDS</h2>
-    <p>record your reading.</p>
-  </div>
+  <button class="back-button" id="backPhysicalThreeRecord">← PHYSICAL</button>
+  <div class="screen-heading"><div class="small-symbol">☾　✦　☽</div><h2>3 CARDS</h2><p>record your reading.</p></div>
 
   <div class="question-area">
-
-    <label for="physicalQuestionInput">YOUR QUESTION</label>
-
-    <textarea
-      id="physicalQuestionInput"
-      placeholder="what did you ask?"
-      rows="3"
-    ></textarea>
-
+    <label for="physicalSpreadType">SPREAD</label>
+    <select id="physicalSpreadType" class="record-select">
+      <option value="FLOW">FLOW · past / present / future</option>
+      <option value="RELATIONSHIP">RELATIONSHIP · you / them / connection</option>
+      <option value="GUIDANCE">GUIDANCE · situation / challenge / advice</option>
+    </select>
   </div>
 
-  <div class="mood-area">
+  <div class="question-area"><label for="physicalQuestionInput">YOUR QUESTION</label><textarea id="physicalQuestionInput" placeholder="what did you ask?" rows="3"></textarea></div>
 
-    <p class="mood-title">HOW DID YOU FEEL?</p>
+  <div class="mood-area"><p class="mood-title">HOW DID YOU FEEL?</p><div class="mood-buttons" id="physicalMoodButtons">
+    <button type="button" class="physical-mood-chip" data-mood="不安">不安</button><button type="button" class="physical-mood-chip" data-mood="期待">期待</button><button type="button" class="physical-mood-chip" data-mood="嬉しい">嬉しい</button><button type="button" class="physical-mood-chip" data-mood="怒り">怒り</button><button type="button" class="physical-mood-chip" data-mood="嫉妬">嫉妬</button><button type="button" class="physical-mood-chip" data-mood="迷い">迷い</button><button type="button" class="physical-mood-chip" data-mood="寂しい">寂しい</button><button type="button" class="physical-mood-chip" data-mood="平常">平常</button>
+  </div></div>
 
-    <div class="mood-buttons" id="physicalMoodButtons">
+  <div class="physical-card-entry" id="physicalCardEntries"></div>
 
-      <button type="button" class="physical-mood-chip" data-mood="不安">不安</button>
-      <button type="button" class="physical-mood-chip" data-mood="期待">期待</button>
-      <button type="button" class="physical-mood-chip" data-mood="嬉しい">嬉しい</button>
-      <button type="button" class="physical-mood-chip" data-mood="怒り">怒り</button>
-      <button type="button" class="physical-mood-chip" data-mood="嫉妬">嫉妬</button>
-      <button type="button" class="physical-mood-chip" data-mood="迷い">迷い</button>
-      <button type="button" class="physical-mood-chip" data-mood="寂しい">寂しい</button>
-      <button type="button" class="physical-mood-chip" data-mood="平常">平常</button>
-
-    </div>
-
-  </div>
-
-  <div class="physical-record-note">
-    <p>CARDS</p>
-    <small>card entry comes next.</small>
-  </div>
-
-  <div class="question-area">
-
-    <label for="physicalSummaryInput">AI SUMMARY</label>
-
-    <textarea
-      id="physicalSummaryInput"
-      placeholder="paste your ~100 character summary here..."
-      rows="4"
-    ></textarea>
-
-    <p class="optional-text">
-      optional — you can add it later.
-    </p>
-
-  </div>
-
+  <div class="question-area"><label for="physicalSummaryInput">AI SUMMARY</label><textarea id="physicalSummaryInput" placeholder="paste your ~100 character summary here..." rows="4"></textarea><p class="optional-text">optional — you can add it later.</p></div>
+  <button class="copy-ai-button" id="savePhysicalReadingBtn">✦ SAVE TO HISTORY</button>
+  <p class="save-status" id="physicalSaveStatus"></p>
 </section>
 
   <!-- 3 CARD SPREAD SELECT -->
@@ -338,6 +261,9 @@
     </div>
 
   </div>
+
+  <button class="read-card-button" id="readSpreadBtn">✦ READ THE CARDS</button>
+  <div class="spread-meanings" id="spreadMeanings"></div>
 
   <button class="copy-ai-button" id="copySpreadAiBtn">
     ✦ COPY FOR AI
@@ -572,7 +498,25 @@
 
 </section>
   
-<script src="app.js?V=2"></script>
+
+<!-- CARDS LIBRARY -->
+<section class="library-screen" id="cardsLibraryScreen">
+  <button class="back-button" id="backCardsLibrary">← HOME</button>
+  <div class="screen-heading"><div class="small-symbol">☾　✦　☽</div><h2>CARDS</h2><p>learn the language of 78.</p></div>
+  <div id="suitOverview" class="suit-overview"></div>
+  <div class="number-guide" id="numberGuide"></div>
+  <div class="library-filter" id="libraryFilter"></div>
+  <div class="card-library-list" id="cardLibraryList"></div>
+</section>
+
+<!-- HISTORY -->
+<section class="history-screen" id="historyScreen">
+  <button class="back-button" id="backHistory">← HOME</button>
+  <div class="screen-heading"><div class="small-symbol">☾　✦　☽</div><h2>HISTORY</h2><p>traces of your readings.</p></div>
+  <div class="history-list" id="historyList"></div>
+</section>
+
+<script src="app.js?V=3"></script>
   
 </body>
 </html>

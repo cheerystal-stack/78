@@ -33,6 +33,8 @@ const backNewReading = document.getElementById("backNewReading");
 const threeSpreadScreen = document.getElementById("threeSpreadScreen");
 const backThreeSpread = document.getElementById("backThreeSpread");
 const flowSpreadBtn = document.getElementById("flowSpreadBtn");
+const relationshipSpreadBtn = document.getElementById("relationshipSpreadBtn");
+const guidanceSpreadBtn = document.getElementById("guidanceSpreadBtn");
 
 const spreadQuestionScreen =
   document.getElementById("spreadQuestionScreen");
@@ -118,6 +120,26 @@ const physicalQuestionInput =
 const physicalSummaryInput =
   document.getElementById("physicalSummaryInput");
 
+const readSpreadBtn = document.getElementById("readSpreadBtn");
+const spreadMeanings = document.getElementById("spreadMeanings");
+const physicalSpreadType = document.getElementById("physicalSpreadType");
+const physicalMoodChips = document.querySelectorAll(".physical-mood-chip");
+const physicalCardEntries = document.getElementById("physicalCardEntries");
+const savePhysicalReadingBtn = document.getElementById("savePhysicalReadingBtn");
+const physicalSaveStatus = document.getElementById("physicalSaveStatus");
+const historyBtn = document.getElementById("historyBtn");
+const historyScreen = document.getElementById("historyScreen");
+const backHistory = document.getElementById("backHistory");
+const historyList = document.getElementById("historyList");
+const cardsLibraryBtn = document.getElementById("cardsLibraryBtn");
+const cardsLibraryScreen = document.getElementById("cardsLibraryScreen");
+const backCardsLibrary = document.getElementById("backCardsLibrary");
+const suitOverview = document.getElementById("suitOverview");
+const numberGuide = document.getElementById("numberGuide");
+const libraryFilter = document.getElementById("libraryFilter");
+const cardLibraryList = document.getElementById("cardLibraryList");
+
+let selectedPhysicalMood = "";
 let selectedSpreadMood = "";
 let selectedSpread = "";
 let currentSpreadCards = [];
@@ -1592,3 +1614,120 @@ ${message}
   }
 
 });
+
+
+/* ================================
+   78 — LIBRARY / PHYSICAL / HISTORY
+================================ */
+
+const suitInfo = {
+  MAJOR: { title: "MAJOR ARCANA", element: "the greater journey", text: "人生の大きな節目・成長・価値観の変化。日常の出来事よりも、背景にある大きなテーマを映す22枚。" },
+  WANDS: { title: "WANDS", element: "FIRE · 火", text: "情熱・行動・意志・創造性。『やりたい』『動きたい』という火のエネルギー。" },
+  CUPS: { title: "CUPS", element: "WATER · 水", text: "感情・愛情・人間関係・直感。心がどう感じ、誰とどうつながるかを見るスート。" },
+  SWORDS: { title: "SWORDS", element: "AIR · 風", text: "思考・判断・言葉・葛藤。頭で考えること、決断、コミュニケーションを表す。" },
+  PENTACLES: { title: "PENTACLES", element: "EARTH · 地", text: "現実・仕事・お金・身体・安定。目に見える成果や生活の土台を扱うスート。" }
+};
+
+const rankInfo = [
+  ["ACE", "始まり・種・純粋な可能性"], ["2", "二者・選択・バランス"], ["3", "発展・交流・広がり"],
+  ["4", "安定・固定・守る"], ["5", "変化・摩擦・揺さぶり"], ["6", "調整・回復・前進"],
+  ["7", "試練・選択・内省"], ["8", "力の集中・動き・積み重ね"], ["9", "成熟・到達直前・個の力"],
+  ["10", "完成・一区切り・次への移行"], ["PAGE", "学び・好奇心・知らせ"], ["KNIGHT", "行動・追求・前進"],
+  ["QUEEN", "内面的成熟・受容・育む力"], ["KING", "外面的成熟・統率・責任"]
+];
+
+function hideHomeAndOpen(screen) {
+  homeScreen.classList.add("home-hidden");
+  screen.classList.add("active");
+  window.scrollTo(0, 0);
+}
+function closeToHome(screen) {
+  screen.classList.remove("active");
+  homeScreen.classList.remove("home-hidden");
+  window.scrollTo(0, 0);
+}
+
+function getSpreadLabels(type) {
+  if (type === "RELATIONSHIP") return ["YOU", "THEM", "CONNECTION"];
+  if (type === "GUIDANCE") return ["SITUATION", "CHALLENGE", "ADVICE"];
+  return ["PAST", "PRESENT", "FUTURE"];
+}
+
+function renderSpreadMeanings() {
+  if (currentSpreadCards.length !== 3) return;
+  const labels = getSpreadLabels(selectedSpread);
+  spreadMeanings.innerHTML = currentSpreadCards.map((result, i) => {
+    const dir = result.reversed ? "reversed" : "upright";
+    const meaning = cardMeanings[result.card.name]?.[dir];
+    return `<article class="meaning-card"><p class="meaning-label">${labels[i]}</p><h3>${result.card.name} ${result.reversed ? "↓" : "↑"}</h3><p class="meaning-label">KEYWORDS</p><p>${meaning?.keywords || ""}</p><p class="meaning-label">MESSAGE</p><p>${meaning?.message || ""}</p></article>`;
+  }).join("");
+  spreadMeanings.classList.toggle("active");
+}
+if (readSpreadBtn) readSpreadBtn.addEventListener("click", renderSpreadMeanings);
+
+function tarotOptions() {
+  return tarotDeck.map(c => `<option value="${c.name}">${c.name}</option>`).join("");
+}
+function renderPhysicalEntries() {
+  const labels = getSpreadLabels(physicalSpreadType.value);
+  physicalCardEntries.innerHTML = labels.map((label, i) => `
+    <div class="physical-card-row">
+      <p class="meaning-label">${label}</p>
+      <select class="record-select physical-card-select" data-index="${i}">${tarotOptions()}</select>
+      <div class="direction-toggle" data-index="${i}">
+        <button type="button" class="direction-btn selected" data-direction="UPRIGHT">UPRIGHT ↑</button>
+        <button type="button" class="direction-btn" data-direction="REVERSED">REVERSED ↓</button>
+      </div>
+    </div>`).join("");
+  physicalCardEntries.querySelectorAll(".direction-toggle").forEach(group => {
+    group.addEventListener("click", e => {
+      const btn=e.target.closest(".direction-btn"); if(!btn) return;
+      group.querySelectorAll(".direction-btn").forEach(b=>b.classList.remove("selected")); btn.classList.add("selected");
+    });
+  });
+}
+if (physicalSpreadType) physicalSpreadType.addEventListener("change", renderPhysicalEntries);
+if (physicalThreeBtn) physicalThreeBtn.addEventListener("click", () => setTimeout(renderPhysicalEntries, 0));
+physicalMoodChips.forEach(chip => chip.addEventListener("click", () => {
+  physicalMoodChips.forEach(c=>c.classList.remove("selected")); chip.classList.add("selected"); selectedPhysicalMood=chip.dataset.mood;
+}));
+
+function loadHistory() { try { return JSON.parse(localStorage.getItem("tarot78History") || "[]"); } catch { return []; } }
+function saveHistory(items) { localStorage.setItem("tarot78History", JSON.stringify(items)); }
+
+if (savePhysicalReadingBtn) savePhysicalReadingBtn.addEventListener("click", () => {
+  const labels=getSpreadLabels(physicalSpreadType.value);
+  const selects=[...document.querySelectorAll(".physical-card-select")];
+  const cards=selects.map((sel,i)=>({ label:labels[i], name:sel.value, direction:document.querySelector(`.direction-toggle[data-index="${i}"] .direction-btn.selected`)?.dataset.direction || "UPRIGHT" }));
+  const entry={ id:Date.now(), createdAt:new Date().toISOString(), method:"PHYSICAL", spread:physicalSpreadType.value, question:physicalQuestionInput.value.trim(), mood:selectedPhysicalMood, cards, summary:physicalSummaryInput.value.trim() };
+  const items=loadHistory(); items.unshift(entry); saveHistory(items);
+  physicalSaveStatus.textContent="✓ SAVED TO HISTORY";
+  setTimeout(()=>physicalSaveStatus.textContent="",1800);
+});
+
+function renderHistory() {
+  const items=loadHistory();
+  if (!items.length) { historyList.innerHTML='<div class="empty-state">No readings yet.<br><small>Your saved readings will appear here.</small></div>'; return; }
+  historyList.innerHTML=items.map(item=>{
+    const date=new Date(item.createdAt).toLocaleString("ja-JP",{year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
+    return `<article class="history-card"><div class="history-meta"><span>${item.method}</span><span>${date}</span></div><h3>${item.spread}</h3>${item.question?`<p class="history-question">${item.question}</p>`:""}<div class="history-cards">${item.cards.map(c=>`<p><strong>${c.label}</strong> · ${c.name} ${c.direction==="REVERSED"?"↓":"↑"}</p>`).join("")}</div>${item.mood?`<p class="history-mood">MOOD · ${item.mood}</p>`:""}${item.summary?`<div class="history-summary"><span>AI SUMMARY</span><p>${item.summary}</p></div>`:""}<button class="history-delete" data-id="${item.id}">DELETE</button></article>`;
+  }).join("");
+  historyList.querySelectorAll(".history-delete").forEach(btn=>btn.addEventListener("click",()=>{ saveHistory(loadHistory().filter(x=>String(x.id)!==btn.dataset.id)); renderHistory(); }));
+}
+if(historyBtn) historyBtn.addEventListener("click",()=>{renderHistory();hideHomeAndOpen(historyScreen)});
+if(backHistory) backHistory.addEventListener("click",()=>closeToHome(historyScreen));
+
+function renderSuitOverview() {
+  suitOverview.innerHTML=Object.entries(suitInfo).map(([key,v])=>`<button class="suit-card" data-suit="${key}"><strong>${v.title}</strong><small>${v.element}</small><span>${v.text}</span></button>`).join("");
+  numberGuide.innerHTML=`<h3>NUMBER & COURT</h3><div class="rank-grid">${rankInfo.map(r=>`<div><strong>${r[0]}</strong><span>${r[1]}</span></div>`).join("")}</div>`;
+  libraryFilter.innerHTML=Object.keys(suitInfo).map((key,i)=>`<button class="library-chip ${i===0?"selected":""}" data-suit="${key}">${key}</button>`).join("");
+  libraryFilter.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{libraryFilter.querySelectorAll("button").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");renderCardLibrary(b.dataset.suit)}));
+  suitOverview.querySelectorAll(".suit-card").forEach(b=>b.addEventListener("click",()=>{ const chip=libraryFilter.querySelector(`[data-suit="${b.dataset.suit}"]`); chip?.click(); libraryFilter.scrollIntoView({behavior:"smooth"}); }));
+  renderCardLibrary("MAJOR");
+}
+function renderCardLibrary(suit) {
+  const cards=tarotDeck.filter(c=> suit==="MAJOR" ? majorArcana.some(m=>m[1]===c.name) : c.name.endsWith(`OF ${suit}`));
+  cardLibraryList.innerHTML=cards.map(c=>{const m=cardMeanings[c.name];return `<details class="library-card"><summary><span>${c.roman}</span><strong>${c.name}</strong></summary><div><p class="meaning-label">UPRIGHT ↑</p><p><b>${m?.upright?.keywords||""}</b></p><p>${m?.upright?.message||""}</p><p class="meaning-label">REVERSED ↓</p><p><b>${m?.reversed?.keywords||""}</b></p><p>${m?.reversed?.message||""}</p></div></details>`}).join("");
+}
+if(cardsLibraryBtn) cardsLibraryBtn.addEventListener("click",()=>{renderSuitOverview();hideHomeAndOpen(cardsLibraryScreen)});
+if(backCardsLibrary) backCardsLibrary.addEventListener("click",()=>closeToHome(cardsLibraryScreen));
