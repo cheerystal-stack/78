@@ -9,7 +9,7 @@
 
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon-192.png">
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 
 <body>
@@ -193,9 +193,11 @@
     <button type="button" class="hexagram-mood-chip" data-mood="不安">不安</button><button type="button" class="hexagram-mood-chip" data-mood="期待">期待</button><button type="button" class="hexagram-mood-chip" data-mood="嬉しい">嬉しい</button><button type="button" class="hexagram-mood-chip" data-mood="怒り">怒り</button><button type="button" class="hexagram-mood-chip" data-mood="嫉妬">嫉妬</button><button type="button" class="hexagram-mood-chip" data-mood="迷い">迷い</button><button type="button" class="hexagram-mood-chip" data-mood="寂しい">寂しい</button><button type="button" class="hexagram-mood-chip" data-mood="平常">平常</button>
   </div></div>
 
-  <div class="physical-card-entry" id="hexagramCardEntries"></div>
+  <div class="physical-card-entry hexagram-board" id="hexagramCardEntries"></div>
 
-  <div class="question-area"><label for="hexagramSummaryInput">AI SUMMARY</label><textarea id="hexagramSummaryInput" placeholder="paste your ~100 character summary here..." rows="4"></textarea><p class="optional-text">optional — you can add it later.</p></div>
+  <button class="copy-ai-button hexagram-copy-button" id="copyHexagramAiBtn">✦ COPY FOR AI</button>
+
+  <div class="question-area"><label for="hexagramSummaryInput">AI SUMMARY</label><textarea id="hexagramSummaryInput" placeholder="paste your 250–350 character summary here..." rows="6"></textarea><p class="optional-text">optional — you can add it later.</p></div>
   <button class="copy-ai-button" id="saveHexagramReadingBtn">✦ SAVE TO HISTORY</button>
   <p class="save-status" id="hexagramSaveStatus"></p>
 </section>
@@ -534,7 +536,7 @@
   <div class="history-list" id="historyList"></div>
 </section>
 
-<script src="app.js?V=4"></script>
+<script src="app.js?V=5"></script>
   
 </body>
 </html>

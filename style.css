@@ -1274,3 +1274,60 @@ footer {
 .library-card summary{min-width:0}
 .library-card summary strong{min-width:0;overflow-wrap:normal;word-break:normal}
 .library-card summary .library-roman{flex:0 0 42px;width:42px;color:var(--gold)}
+
+/* =========================
+   HEXAGRAM VISUAL RECORD v5
+========================= */
+.hexagram-board{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-areas:
+    ". past ."
+    "them outcome self"
+    "future . present"
+    ". advice .";
+  gap:14px 10px;
+  margin:30px 0 34px;
+  align-items:start;
+}
+.hexagram-slot{
+  position:relative;
+  min-width:0;
+  padding:12px 8px 10px;
+  border:1px solid rgba(200,169,106,.34);
+  border-radius:10px;
+  background:rgba(8,13,36,.62);
+  text-align:center;
+  box-shadow:0 0 16px rgba(200,169,106,.04);
+}
+.hexagram-past{grid-area:past}.hexagram-present{grid-area:present}.hexagram-future{grid-area:future}.hexagram-advice{grid-area:advice}.hexagram-them{grid-area:them}.hexagram-self{grid-area:self}.hexagram-outcome{grid-area:outcome;border-color:rgba(212,179,106,.7);box-shadow:0 0 22px rgba(212,179,106,.10)}
+.hexagram-slot-number{margin:0 0 4px;color:var(--gold);font-family:Georgia,"Times New Roman",serif;font-size:18px}
+.hexagram-slot .meaning-label{min-height:30px;margin:0 0 8px;font-size:8px;line-height:1.35;letter-spacing:.8px}
+.hexagram-slot .record-select{width:100%;min-width:0;padding:8px 5px;font-size:9px}
+.hexagram-slot .direction-toggle{grid-template-columns:1fr;gap:5px;margin-top:7px}
+.hexagram-slot .direction-btn{padding:6px 3px;font-size:8px;letter-spacing:.3px}
+.hexagram-copy-button{margin-top:2px}
+
+.history-hexagram{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-areas:
+    ". past ."
+    "them outcome self"
+    "future . present"
+    ". advice .";
+  gap:8px 6px;
+  margin:20px 0 18px;
+}
+.history-hex-slot{min-width:0;padding:8px 5px;border:1px solid rgba(200,169,106,.22);border-radius:7px;text-align:center;background:rgba(8,13,36,.45)}
+.history-hex-past{grid-area:past}.history-hex-present{grid-area:present}.history-hex-future{grid-area:future}.history-hex-advice{grid-area:advice}.history-hex-them{grid-area:them}.history-hex-self{grid-area:self}.history-hex-outcome{grid-area:outcome;border-color:rgba(212,179,106,.55)}
+.history-hex-slot span,.history-hex-slot strong,.history-hex-slot em{display:block;min-width:0}
+.history-hex-slot span{font-size:7px;line-height:1.35;color:var(--gold);letter-spacing:.2px}
+.history-hex-slot strong{margin:4px 0;font-size:8px;line-height:1.25;color:var(--ivory);font-weight:normal;overflow-wrap:anywhere}
+.history-hex-slot em{font-size:7px;color:var(--muted);font-style:normal}
+
+@media (max-width:380px){
+  .hexagram-board{gap:10px 6px}
+  .hexagram-slot{padding:10px 5px 8px}
+  .hexagram-slot .record-select{font-size:8px}
+}

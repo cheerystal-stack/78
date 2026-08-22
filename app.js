@@ -134,6 +134,7 @@ const hexagramQuestionInput = document.getElementById("hexagramQuestionInput");
 const hexagramMoodChips = document.querySelectorAll(".hexagram-mood-chip");
 const hexagramCardEntries = document.getElementById("hexagramCardEntries");
 const hexagramSummaryInput = document.getElementById("hexagramSummaryInput");
+const copyHexagramAiBtn = document.getElementById("copyHexagramAiBtn");
 const saveHexagramReadingBtn = document.getElementById("saveHexagramReadingBtn");
 const hexagramSaveStatus = document.getElementById("hexagramSaveStatus");
 const historyBtn = document.getElementById("historyBtn");
@@ -1733,20 +1734,22 @@ const hexagramLabels = [
   "PRESENT｜現在",
   "FUTURE｜未来",
   "ADVICE｜対策",
-  "ENVIRONMENT｜周囲の状況",
-  "SELF｜本人の気持ち",
+  "THEM｜相手",
+  "SELF｜自分",
   "OUTCOME｜最終結果"
 ];
 
 function renderHexagramEntries() {
   if (!hexagramCardEntries) return;
+  const positions = ["past", "present", "future", "advice", "them", "self", "outcome"];
   hexagramCardEntries.innerHTML = hexagramLabels.map((label, i) => `
-    <div class="physical-card-row">
-      <p class="meaning-label">${i + 1}. ${label}</p>
+    <div class="hexagram-slot hexagram-${positions[i]}">
+      <p class="hexagram-slot-number">${i + 1}</p>
+      <p class="meaning-label">${label}</p>
       <select class="record-select hexagram-card-select" data-index="${i}">${tarotOptions()}</select>
       <div class="hexagram-direction-toggle direction-toggle" data-index="${i}">
-        <button type="button" class="direction-btn selected" data-direction="UPRIGHT">UPRIGHT ↑</button>
-        <button type="button" class="direction-btn" data-direction="REVERSED">REVERSED ↓</button>
+        <button type="button" class="direction-btn selected" data-direction="UPRIGHT">UP ↑</button>
+        <button type="button" class="direction-btn" data-direction="REVERSED">REV ↓</button>
       </div>
     </div>`).join("");
 
@@ -1766,15 +1769,72 @@ hexagramMoodChips.forEach(chip => chip.addEventListener("click", () => {
   selectedHexagramMood = chip.dataset.mood;
 }));
 
-if (saveHexagramReadingBtn) saveHexagramReadingBtn.addEventListener("click", () => {
+function getHexagramCardsFromForm() {
   const selects = [...document.querySelectorAll(".hexagram-card-select")];
-  if (selects.length !== 7) return;
-
-  const cards = selects.map((sel, i) => ({
+  return selects.map((sel, i) => ({
     label: hexagramLabels[i],
     name: sel.value,
     direction: document.querySelector(`.hexagram-direction-toggle[data-index="${i}"] .direction-btn.selected`)?.dataset.direction || "UPRIGHT"
   }));
+}
+
+if (copyHexagramAiBtn) copyHexagramAiBtn.addEventListener("click", async () => {
+  const cards = getHexagramCardsFromForm();
+  if (cards.length !== 7) return;
+
+  const question = hexagramQuestionInput.value.trim() || "質問は入力されていません";
+  const mood = selectedHexagramMood || "気分は選択されていません";
+
+  const cardTexts = cards.map((item, index) => {
+    const directionKey = item.direction === "REVERSED" ? "reversed" : "upright";
+    const meaning = cardMeanings[item.name]?.[directionKey];
+    return `【${index + 1}｜${item.label}】\n${item.name}\n${item.direction === "REVERSED" ? "REVERSED ↓" : "UPRIGHT ↑"}\n\n【基本キーワード】\n${meaning?.keywords || ""}\n\n【カードの基本メッセージ】\n${meaning?.message || ""}`;
+  }).join("\n\n");
+
+  const prompt = `タロットWebアプリ「78」で、物理カードを使ってヘキサグラムスプレッドを引きました。
+
+【質問】
+${question}
+
+【今の気分】
+${mood}
+
+【スプレッド】
+HEXAGRAM
+1｜過去
+2｜現在
+3｜未来
+4｜対応策
+5｜相手
+6｜自分
+7｜結果
+
+【出たカード】
+${cardTexts}
+
+この結果を、それぞれのポジションの意味とタロットカードの一般的な象徴を踏まえて詳しく解釈してください。
+
+カードを1枚ずつ独立して読むだけでなく、過去→現在→未来の時間軸、相手と自分の対比、対応策が全体へどう作用するか、そしてそれらが結果へどうつながるかを統合して読んでください。
+
+未来や他者の気持ちを事実として断定するのではなく、カードから考えられる可能性やニュアンスとして解釈してください。
+
+最後に、履歴保存用として今回のリーディング全体を250〜350字程度の日本語で「AI SUMMARY」として要約してください。個々のカードの羅列ではなく、時間軸、自分と相手の対比、対応策、結果までをひとつの流れとしてまとめてください。
+
+質問と同じ言語で回答してください。`;
+
+  try {
+    await navigator.clipboard.writeText(prompt);
+    const original = copyHexagramAiBtn.textContent;
+    copyHexagramAiBtn.textContent = "✓ COPIED";
+    setTimeout(() => copyHexagramAiBtn.textContent = original, 1600);
+  } catch (error) {
+    console.error("Copy failed:", error);
+  }
+});
+
+if (saveHexagramReadingBtn) saveHexagramReadingBtn.addEventListener("click", () => {
+  const cards = getHexagramCardsFromForm();
+  if (cards.length !== 7) return;
 
   const entry = {
     id: Date.now(),
@@ -1794,12 +1854,32 @@ if (saveHexagramReadingBtn) saveHexagramReadingBtn.addEventListener("click", () 
   setTimeout(() => hexagramSaveStatus.textContent = "", 1800);
 });
 
+function normalizeHistoryLabel(label) {
+  if (label === "ENVIRONMENT｜周囲の状況") return "THEM｜相手";
+  if (label === "SELF｜本人の気持ち") return "SELF｜自分";
+  return label;
+}
+
+function renderHistoryHexagram(cards) {
+  if (!cards || cards.length !== 7) return "";
+  const positions = ["past", "present", "future", "advice", "them", "self", "outcome"];
+  return `<div class="history-hexagram">${cards.map((c, i) => `
+    <div class="history-hex-slot history-hex-${positions[i]}">
+      <span>${i + 1} · ${normalizeHistoryLabel(c.label)}</span>
+      <strong>${c.name}</strong>
+      <em>${c.direction === "REVERSED" ? "REVERSED ↓" : "UPRIGHT ↑"}</em>
+    </div>`).join("")}</div>`;
+}
+
 function renderHistory() {
   const items=loadHistory();
   if (!items.length) { historyList.innerHTML='<div class="empty-state">No readings yet.<br><small>Your saved readings will appear here.</small></div>'; return; }
   historyList.innerHTML=items.map(item=>{
     const date=new Date(item.createdAt).toLocaleString("ja-JP",{year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
-    return `<article class="history-card"><div class="history-meta"><span>${item.method}</span><span>${date}</span></div><h3>${item.spread}</h3>${item.question?`<p class="history-question">${item.question}</p>`:""}<div class="history-cards">${item.cards.map(c=>`<p><strong>${c.label}</strong> · ${c.name} ${c.direction==="REVERSED"?"↓":"↑"}</p>`).join("")}</div>${item.mood?`<p class="history-mood">MOOD · ${item.mood}</p>`:""}${item.summary?`<div class="history-summary"><span>AI SUMMARY</span><p>${item.summary}</p></div>`:""}<button class="history-delete" data-id="${item.id}">DELETE</button></article>`;
+    const normalizedCards=(item.cards||[]).map(c=>({...c,label:normalizeHistoryLabel(c.label)}));
+    const mini=item.spread === "HEXAGRAM" ? renderHistoryHexagram(normalizedCards) : "";
+    const list=`<div class="history-cards">${normalizedCards.map(c=>`<p><strong>${c.label}</strong> · ${c.name} ${c.direction==="REVERSED"?"↓":"↑"}</p>`).join("")}</div>`;
+    return `<article class="history-card"><div class="history-meta"><span>${item.method}</span><span>${date}</span></div><h3>${item.spread}</h3>${item.question?`<p class="history-question">${item.question}</p>`:""}${mini}${list}${item.mood?`<p class="history-mood">MOOD · ${item.mood}</p>`:""}${item.summary?`<div class="history-summary"><span>AI SUMMARY</span><p>${item.summary}</p></div>`:""}<button class="history-delete" data-id="${item.id}">DELETE</button></article>`;
   }).join("");
   historyList.querySelectorAll(".history-delete").forEach(btn=>btn.addEventListener("click",()=>{ saveHistory(loadHistory().filter(x=>String(x.id)!==btn.dataset.id)); renderHistory(); }));
 }
