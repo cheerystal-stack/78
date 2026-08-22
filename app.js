@@ -1696,13 +1696,14 @@ function tarotOptions() {
 }
 function renderPhysicalEntries() {
   const labels = getSpreadLabels(physicalSpreadType.value);
+  physicalCardEntries.classList.add("physical-three-board");
   physicalCardEntries.innerHTML = labels.map((label, i) => `
-    <div class="physical-card-row">
+    <div class="physical-card-row physical-three-slot">
       <p class="meaning-label">${label}</p>
       <select class="record-select physical-card-select" data-index="${i}">${tarotOptions()}</select>
       <div class="direction-toggle" data-index="${i}">
-        <button type="button" class="direction-btn selected" data-direction="UPRIGHT">UPRIGHT ↑</button>
-        <button type="button" class="direction-btn" data-direction="REVERSED">REVERSED ↓</button>
+        <button type="button" class="direction-btn selected" data-direction="UPRIGHT">UP ↑</button>
+        <button type="button" class="direction-btn" data-direction="REVERSED">REV ↓</button>
       </div>
     </div>`).join("");
   physicalCardEntries.querySelectorAll(".direction-toggle").forEach(group => {
@@ -1980,7 +1981,7 @@ const originalDrawThreeCards=drawThreeCards; drawThreeCards=function(){virtualTh
 function renderHistoryThree(cards){return `<div class="history-three">${cards.map((c,i)=>`<div class="history-mini-slot"><span>${normalizeHistoryLabel(c.label)}</span><strong>${c.name}</strong><em>${c.direction==="REVERSED"?'REVERSED ↓':'UPRIGHT ↑'}</em></div>`).join("")}</div>`}
 function renderHistoryGreek(cards){return `<div class="history-greek">${cards.map((c,i)=>`<div class="history-mini-slot history-greek-${greekAreas[i]}"><span>${i+1} · ${normalizeHistoryLabel(c.label)}</span><strong>${c.name}</strong><em>${c.direction==="REVERSED"?'REVERSED ↓':'UPRIGHT ↑'}</em></div>`).join("")}</div>`}
 // Upgrade history renderer: preserve old records and add visual 3/5-card layouts.
-renderHistory=function(){const items=loadHistory();if(!items.length){historyList.innerHTML='<div class="empty-state">No readings yet.<br><small>Your saved readings will appear here.</small></div>';return}historyList.innerHTML=items.map(item=>{const date=new Date(item.createdAt||item.id).toLocaleString("ja-JP",{year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"});const cards=(item.cards||[]).map(c=>({...c,label:normalizeHistoryLabel(c.label)}));const mini=item.spread==="HEXAGRAM"?renderHistoryHexagram(cards):item.spread==="GREEK CROSS"?renderHistoryGreek(cards):cards.length===3?renderHistoryThree(cards):"";const list=`<div class="history-cards">${cards.map(c=>`<p><strong>${c.label}</strong> · ${c.name} ${c.direction==="REVERSED"?"↓":"↑"}</p>`).join("")}</div>`;return `<article class="history-card"><div class="history-meta"><span>${item.method||""}</span><span>${date}</span></div><h3>${item.spread}</h3>${item.question?`<p class="history-question">${item.question}</p>`:""}${mini}${list}${item.mood?`<p class="history-mood">MOOD · ${item.mood}</p>`:""}${item.summary?`<div class="history-summary"><span>AI SUMMARY</span><p>${item.summary}</p></div>`:""}<button class="history-delete" data-id="${item.id}">DELETE</button></article>`}).join("");historyList.querySelectorAll(".history-delete").forEach(btn=>btn.addEventListener("click",()=>{saveHistory(loadHistory().filter(x=>String(x.id)!==btn.dataset.id));renderHistory()}));};
+renderHistory=function(){const items=loadHistory();if(!items.length){historyList.innerHTML='<div class="empty-state">No readings yet.<br><small>Your saved readings will appear here.</small></div>';return}historyList.innerHTML=items.map(item=>{const date=new Date(item.createdAt||item.id).toLocaleString("ja-JP",{year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"});const cards=(item.cards||[]).map(c=>({...c,label:normalizeHistoryLabel(c.label)}));const mini=item.spread==="HEXAGRAM"?renderHistoryHexagram(cards):item.spread==="GREEK CROSS"?renderHistoryGreek(cards):cards.length===3?renderHistoryThree(cards):"";const list=mini?"":`<div class="history-cards">${cards.map(c=>`<p><strong>${c.label}</strong> · ${c.name} ${c.direction==="REVERSED"?"↓":"↑"}</p>`).join("")}</div>`;return `<article class="history-card"><div class="history-meta"><span>${item.method||""}</span><span>${date}</span></div><h3>${item.spread}</h3>${item.question?`<p class="history-question">${item.question}</p>`:""}${mini}${list}${item.mood?`<p class="history-mood">MOOD · ${item.mood}</p>`:""}${item.summary?`<div class="history-summary"><span>AI SUMMARY</span><p>${item.summary}</p></div>`:""}<button class="history-delete" data-id="${item.id}">DELETE</button></article>`}).join("");historyList.querySelectorAll(".history-delete").forEach(btn=>btn.addEventListener("click",()=>{saveHistory(loadHistory().filter(x=>String(x.id)!==btn.dataset.id));renderHistory()}));};
 
 
 // Physical 3-card AI prompt.

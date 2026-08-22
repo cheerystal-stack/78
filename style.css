@@ -1341,3 +1341,40 @@ footer {
 .virtual-five-card{appearance:none;width:100%;min-height:150px;cursor:pointer}.virtual-five-card:not(.revealed){background-image:url("card-back.jpeg");background-size:cover;background-position:center}.virtual-five-card:not(.revealed)>*{visibility:hidden}.virtual-card-face strong,.virtual-card-face span{display:block}.virtual-card-face strong{font-size:9px;line-height:1.35}.virtual-card-face span{margin-top:8px;color:var(--gold);font-size:8px}.compact-reading-btn{display:block;width:min(100%,320px)!important;margin:12px auto!important}.virtual-summary-area{margin-top:24px}
 .history-three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:18px 0}.history-mini-slot{min-width:0;padding:9px 5px;border:1px solid rgba(200,169,106,.24);border-radius:7px;text-align:center;background:rgba(8,13,36,.45)}.history-mini-slot span,.history-mini-slot strong,.history-mini-slot em{display:block}.history-mini-slot span{font-size:7px;color:var(--gold);line-height:1.3}.history-mini-slot strong{margin:5px 0;font-size:8px;line-height:1.3;font-weight:normal;overflow-wrap:anywhere}.history-mini-slot em{font-size:7px;color:var(--muted);font-style:normal}.history-greek{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-areas:". tendency ." "present outcome obstacle" ". advice .";gap:8px 6px;margin:18px 0}.history-greek-present{grid-area:present}.history-greek-obstacle{grid-area:obstacle}.history-greek-tendency{grid-area:tendency}.history-greek-advice{grid-area:advice}.history-greek-outcome{grid-area:outcome;border-color:rgba(212,179,106,.55)}
 .spread-result-screen>.read-card-button{width:min(100%,320px);max-width:calc(100% - 52px)}
+
+
+/* v6.1 — compact 3-card physical layout */
+.physical-card-entry.physical-three-board{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin:30px 0;
+}
+.physical-three-slot{
+  min-width:0;
+  padding:14px 8px;
+  border:1px solid rgba(200,169,106,.32);
+  border-radius:10px;
+  background:rgba(8,13,36,.45);
+}
+.physical-three-slot .meaning-label{
+  min-height:34px;
+  margin:0 0 8px;
+  text-align:center;
+  font-size:9px;
+  line-height:1.35;
+  letter-spacing:1px;
+}
+.physical-three-slot .record-select{
+  min-width:0;
+  margin-top:0;
+  padding:10px 6px;
+  font-size:10px;
+}
+.physical-three-slot .direction-toggle{gap:5px;margin-top:8px}
+.physical-three-slot .direction-btn{padding:8px 2px;font-size:9px}
+@media (max-width:360px){
+  .physical-card-entry.physical-three-board{gap:5px}
+  .physical-three-slot{padding:12px 5px}
+  .physical-three-slot .record-select{font-size:9px;padding:9px 3px}
+}
