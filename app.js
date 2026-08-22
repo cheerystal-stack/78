@@ -127,6 +127,15 @@ const physicalMoodChips = document.querySelectorAll(".physical-mood-chip");
 const physicalCardEntries = document.getElementById("physicalCardEntries");
 const savePhysicalReadingBtn = document.getElementById("savePhysicalReadingBtn");
 const physicalSaveStatus = document.getElementById("physicalSaveStatus");
+
+const physicalHexagramRecordScreen = document.getElementById("physicalHexagramRecordScreen");
+const backPhysicalHexagramRecord = document.getElementById("backPhysicalHexagramRecord");
+const hexagramQuestionInput = document.getElementById("hexagramQuestionInput");
+const hexagramMoodChips = document.querySelectorAll(".hexagram-mood-chip");
+const hexagramCardEntries = document.getElementById("hexagramCardEntries");
+const hexagramSummaryInput = document.getElementById("hexagramSummaryInput");
+const saveHexagramReadingBtn = document.getElementById("saveHexagramReadingBtn");
+const hexagramSaveStatus = document.getElementById("hexagramSaveStatus");
 const historyBtn = document.getElementById("historyBtn");
 const historyScreen = document.getElementById("historyScreen");
 const backHistory = document.getElementById("backHistory");
@@ -140,6 +149,7 @@ const libraryFilter = document.getElementById("libraryFilter");
 const cardLibraryList = document.getElementById("cardLibraryList");
 
 let selectedPhysicalMood = "";
+let selectedHexagramMood = "";
 let selectedSpreadMood = "";
 let selectedSpread = "";
 let currentSpreadCards = [];
@@ -1311,6 +1321,19 @@ backPhysicalThreeRecord.addEventListener("click", () => {
   window.scrollTo(0, 0);
 });
 
+physicalHexagramBtn.addEventListener("click", () => {
+  physicalSpreadScreen.classList.remove("active");
+  physicalHexagramRecordScreen.classList.add("active");
+  renderHexagramEntries();
+  window.scrollTo(0, 0);
+});
+
+backPhysicalHexagramRecord.addEventListener("click", () => {
+  physicalHexagramRecordScreen.classList.remove("active");
+  physicalSpreadScreen.classList.add("active");
+  window.scrollTo(0, 0);
+});
+
 backThreeSpread.addEventListener("click", () => {
   threeSpreadScreen.classList.remove("active");
   newReadingScreen.classList.add("active");
@@ -1705,6 +1728,72 @@ if (savePhysicalReadingBtn) savePhysicalReadingBtn.addEventListener("click", () 
   setTimeout(()=>physicalSaveStatus.textContent="",1800);
 });
 
+const hexagramLabels = [
+  "PAST｜過去",
+  "PRESENT｜現在",
+  "FUTURE｜未来",
+  "ADVICE｜対策",
+  "ENVIRONMENT｜周囲の状況",
+  "SELF｜本人の気持ち",
+  "OUTCOME｜最終結果"
+];
+
+function renderHexagramEntries() {
+  if (!hexagramCardEntries) return;
+  hexagramCardEntries.innerHTML = hexagramLabels.map((label, i) => `
+    <div class="physical-card-row">
+      <p class="meaning-label">${i + 1}. ${label}</p>
+      <select class="record-select hexagram-card-select" data-index="${i}">${tarotOptions()}</select>
+      <div class="hexagram-direction-toggle direction-toggle" data-index="${i}">
+        <button type="button" class="direction-btn selected" data-direction="UPRIGHT">UPRIGHT ↑</button>
+        <button type="button" class="direction-btn" data-direction="REVERSED">REVERSED ↓</button>
+      </div>
+    </div>`).join("");
+
+  hexagramCardEntries.querySelectorAll(".hexagram-direction-toggle").forEach(group => {
+    group.addEventListener("click", e => {
+      const btn = e.target.closest(".direction-btn");
+      if (!btn) return;
+      group.querySelectorAll(".direction-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+    });
+  });
+}
+
+hexagramMoodChips.forEach(chip => chip.addEventListener("click", () => {
+  hexagramMoodChips.forEach(c => c.classList.remove("selected"));
+  chip.classList.add("selected");
+  selectedHexagramMood = chip.dataset.mood;
+}));
+
+if (saveHexagramReadingBtn) saveHexagramReadingBtn.addEventListener("click", () => {
+  const selects = [...document.querySelectorAll(".hexagram-card-select")];
+  if (selects.length !== 7) return;
+
+  const cards = selects.map((sel, i) => ({
+    label: hexagramLabels[i],
+    name: sel.value,
+    direction: document.querySelector(`.hexagram-direction-toggle[data-index="${i}"] .direction-btn.selected`)?.dataset.direction || "UPRIGHT"
+  }));
+
+  const entry = {
+    id: Date.now(),
+    createdAt: new Date().toISOString(),
+    method: "PHYSICAL",
+    spread: "HEXAGRAM",
+    question: hexagramQuestionInput.value.trim(),
+    mood: selectedHexagramMood,
+    cards,
+    summary: hexagramSummaryInput.value.trim()
+  };
+
+  const items = loadHistory();
+  items.unshift(entry);
+  saveHistory(items);
+  hexagramSaveStatus.textContent = "✓ SAVED TO HISTORY";
+  setTimeout(() => hexagramSaveStatus.textContent = "", 1800);
+});
+
 function renderHistory() {
   const items=loadHistory();
   if (!items.length) { historyList.innerHTML='<div class="empty-state">No readings yet.<br><small>Your saved readings will appear here.</small></div>'; return; }
@@ -1727,7 +1816,7 @@ function renderSuitOverview() {
 }
 function renderCardLibrary(suit) {
   const cards=tarotDeck.filter(c=> suit==="MAJOR" ? majorArcana.some(m=>m[1]===c.name) : c.name.endsWith(`OF ${suit}`));
-  cardLibraryList.innerHTML=cards.map(c=>{const m=cardMeanings[c.name];return `<details class="library-card"><summary><span>${c.roman}</span><strong>${c.name}</strong></summary><div><p class="meaning-label">UPRIGHT ↑</p><p><b>${m?.upright?.keywords||""}</b></p><p>${m?.upright?.message||""}</p><p class="meaning-label">REVERSED ↓</p><p><b>${m?.reversed?.keywords||""}</b></p><p>${m?.reversed?.message||""}</p></div></details>`}).join("");
+  cardLibraryList.innerHTML=cards.map(c=>{const m=cardMeanings[c.name];const roman=suit==="MAJOR"?`<span class="library-roman">${c.roman}</span>`:"";return `<details class="library-card"><summary>${roman}<strong>${c.name}</strong></summary><div><p class="meaning-label">UPRIGHT ↑</p><p><b>${m?.upright?.keywords||""}</b></p><p>${m?.upright?.message||""}</p><p class="meaning-label">REVERSED ↓</p><p><b>${m?.reversed?.keywords||""}</b></p><p>${m?.reversed?.message||""}</p></div></details>`}).join("");
 }
 if(cardsLibraryBtn) cardsLibraryBtn.addEventListener("click",()=>{renderSuitOverview();hideHomeAndOpen(cardsLibraryScreen)});
 if(backCardsLibrary) backCardsLibrary.addEventListener("click",()=>closeToHome(cardsLibraryScreen));
